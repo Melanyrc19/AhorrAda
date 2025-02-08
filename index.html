@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+<body>
+    
+    <header class="w h-20 bg-[#57d8c7f6] text-white flex flex-row justify-between items-center "> 
+        <div class="m-5 text-4xl font-bold"><p>AhorrADAs</p></div>
+        <div class="hidden m-12 lg:block">
+            <button class="m-5">Balance</button>
+            <button class="m-5">Categorias</button>
+            <button class="m-5">Reportes</button>
+        </div>
+        <div class="md:hidden">
+            <i class=" text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>
+        </div>
+    </header>
+    <section class="lg:flex lg:flex-row lg:h-screen  lg:m-12 ">
+        <div class="flex flex-col p-6 lg:w-2/4">
+            <div class="bg-[white] h-62 w-5/6 mx-auto my-16 p-6 shadow-2xl border-[1px] border-gray lg:m-0 lg:m-0">
+                <h2 class="text-3xl font-semibold">Balance</h2>
+                <div class="flex text-xl justify-between my-12">
+                    <div>
+                        <p class="mt-3">Ganancias:</p>
+                        <p class="mt-3" >Gastos:</p>
+                        <h3 class="mt-3 text-3xl">Total:</h3>
+                    </div>
+                    <div>
+                        <p class="mt-3">+$0</p>
+                        <p class="mt-3">-$0</p>
+                        <p class="mt-3"> $0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white] h-105 w-5/6 mx-auto my-10 p-6 flex flex-col shadow-2xl border-[1px] border-gray lg:mx-0 lg:my:1 lg:h-min ">
+                <h2 class="text-3xl my-5 font-semibold">Filtros</h2>
+                <label class="my-3 font-semibold" for="opciones">Tipo</label>
+                <select class="my-3" id="opciones" name="Todas">
+                <option value="opcion1">Todos</option>
+                <option value="opcion2">Gastos</option>
+                <option value="opcion3">Ganancias</option>
+                </select>
+                
+                <label class="my-3 font-semibold" for="opciones">Categorias</label>
+                <select id="opciones" name="Todas">
+                <option value="opcion1">Todas</option>
+                <option value="opcion2">Educacion</option>
+                <option value="opcion3">Salidas</option>
+                <option value="opcion3">Servicios</option>
+                <option value="opcion3">trabajo</option>
+                <option value="opcion3">transporte</option>
+                </select>
+
+                <label class="my-3 font-semibold" for="Fecha">Desde</label>
+                <input type="date" name="fecha" id="fecha">
+
+                <label class="my-3 font-semibold" for="opciones">Ordenar por</label>
+                <select id="opciones" name="Todas">
+                    <option value="">Mas reciente</option>
+                    <option value="">Menos reciente</option>
+                    <option value="">Mayor monto</option>
+                    <option value="">Menor monto</option>
+                    <option value="">A/Z</option>
+                    <option value="Z/A">Z/A</option>
+                </select>
+
+            </div>
+
+
+        </div>
+        <div class="lg:w-[100%] lg:m-0">
+            <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 shadow-2xl p-6 border-[1px] border-gray lg:h-3/4 lg:m-6" >
+                <h3 class="text-3xl text-start my-10 font-semibold"> Operaciones</h3>
+                <button class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
+
+                <div class="text-center relative top-56 w-full">
+                    <P class="py-6 text-2xl font-semibold">Sin resultados</P>
+                    <p class="text-center w-full">Cambia los filtros o agrega operaciones</p>
+                </div>
+
+
+
+
+
+    
+            </section>
+            <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 border-[1px] border-gray shadow-2xl lg:hidden">
+                <h2 class="text-3xl my-5">
+                    Categorias
+                </h2>
+                <label for="">Nombre</label>
+                <div class="my-3 w-full" > 
+                    <input class="w-4/6" type="text">
+                    <button class=" p-1 ml-1 border-2" >Agregar</button>
+                </div>
+                <div class="my-3" >
+                    <p class="my-3 bg-[#d0ee7f] p-2 w-20 rounded-full" >Servicios</p>
+                    <p class="my-3 bg-[#d0ee7f] p-2 w-20 rounded-full" >Salidas</p>
+                    <p class="my-3 bg-[#d0ee7f] p-2 w-20 rounded-full" >Educacion</p>
+                    <p class="my-3 bg-[#d0ee7f] p-2 w-20 rounded-full" >Transporte</p>
+                    <p class="my-3 bg-[#d0ee7f] p-2 w-20 rounded-full" >Trabajo</p>
+                </div>
+              
+            </section>
+
+
+        </div>
+    </section>
+
+
+
+
+</body>
+</html>
