@@ -13,8 +13,8 @@
     <header class="w h-20 bg-[#57d8c7f6] text-white flex flex-row justify-between items-center "> 
         <div class="m-5 text-4xl font-bold"><p>AhorrADAs</p></div>
         <div class="hidden m-12 lg:block">
-            <button id="botonCalance" class="m-5">Balance</button>
-            <button  id="boyonCategorias"  class="m-5">Categorias</button>
+            <button id="botonBalance" class="m-5">Balance</button>
+            <button  id="botonCategorias"  class="m-5">Categorias</button>
             <button id="botonReportes" class="m-5">Reportes</button>
         </div>
         <div class="md:hidden">
@@ -75,8 +75,8 @@
 
 
         </div>
-        <div class="lg:w-[100%] lg:m-0" id="operaciones">
-            <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 shadow-2xl p-6 border-[1px] border-gray lg:h-3/4 lg:m-6" >
+        <div class="lg:w-[100%] lg:m-0" >
+            <section id="operaciones" class="bg-white h-screen w-5/6 mx-auto my-12 p-4 shadow-2xl p-6 border-[1px] border-gray lg:h-3/4 lg:m-6" >
                 <h3 class="text-3xl text-start my-10 font-semibold"> Operaciones</h3>
                 <button id="botonOperaciones" class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
 
@@ -108,11 +108,11 @@
         </div>
     </section>
 
-    <section id="contein-modal" class="hidden h-screen w-full absolute top-36 items-center flex items-center justify-center bg-{#000080}">
-        <div id="contain-modal" class="h-full w-5/6  m-12 bg-gray-300 flex flex-col p-6 rounded-md">
+    <section id="contein-modal" class="hidden h-screen w-full absolute top-20 items-center flex items-center justify-center">
+        <div id="contain-modal" class=" h-auto w-auto md:w-5/6 m-12 p-6 md:p-[40px] bg-gray-300 flex flex-col rounded-md">
             <h3 class="font-bold text-4xl my-2">Nueva operacion</h3>
             <form class="flex flex-col justify-around" action="">
-                <div class="py-6 flex flex-col">
+                <div class="py-4 flex flex-col">
                     <label for="">Descripcion</label>
                     <input class="rounded-sm" type="text">
                 </div>
