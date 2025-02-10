@@ -13,9 +13,9 @@
     <header class="w h-20 bg-[#57d8c7f6] text-white flex flex-row justify-between items-center "> 
         <div class="m-5 text-4xl font-bold"><p>AhorrADAs</p></div>
         <div class="hidden m-12 lg:block">
-            <button class="m-5">Balance</button>
-            <button class="m-5">Categorias</button>
-            <button class="m-5">Reportes</button>
+            <button id="Balance" class="m-5">Balance</button>
+            <button  id="Categorias"  class="m-5">Categorias</button>
+            <button id="Reportes" class="m-5">Reportes</button>
         </div>
         <div class="md:hidden">
             <i class=" text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>
@@ -84,12 +84,6 @@
                     <P class="py-6 text-2xl font-semibold">Sin resultados</P>
                     <p class="text-center w-full">Cambia los filtros o agrega operaciones</p>
                 </div>
-
-
-
-
-
-    
             </section>
             <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 border-[1px] border-gray shadow-2xl lg:hidden">
                 <h2 class="text-3xl my-5">
@@ -114,8 +108,47 @@
         </div>
     </section>
 
+    <section id="contein-modal" class="h-screen w-full absolute top-36 items-center flex items-center justify-center bg-{#000080}">
+        <div id="contain-modal" class="h-full w-full  m-12 bg-gray-300 flex flex-col p-6 rounded-md">
+            <h3 class="font-bold text-4xl my-2">Nueva operacion</h3>
+            <form class="flex flex-col justify-around" action="">
+                <div class="py-6 flex flex-col">
+                    <label for="">Descripcion</label>
+                    <input class="rounded-sm" type="text">
+                </div>
+                <div class="py-4 flex flex-col"> 
+                    <label for="">Monto</label>
+                    <input class="rounded-sm"  type="number" name="" id="">
+                </div>
+                <div class="py-4 flex flex-col">
+                    <label for="">Tipo</label>
+                    <select class="rounded-sm"  name="" id="">
+                        <option value="">Gastos</option>
+                        <option value="">Ganancias</option>
+                    </select>
+                </div>
+                <div class="py-4 flex flex-col">
+                    <label for="">Categorias</label>
+                    <select class="rounded-sm"  name="" id="">
+                        <option value="">Trabajo</option>
+                        <option value="">Educacion</option>
+                        <option value="">Transporte</option>
+                        <option value="">Salidas</option>
+                    </select>
+                </div>
+                <div class="py-4 flex flex-col">
+                    <label for="">Fecha</label>
+                    <input class="rounded-sm"  type="date">
+                </div>
+            </form>
 
 
 
+        </div>
+    </section>
+
+
+
+<script src="index.js"></script>
 </body>
 </html>
