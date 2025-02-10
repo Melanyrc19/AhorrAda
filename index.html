@@ -13,17 +13,17 @@
     <header class="w h-20 bg-[#57d8c7f6] text-white flex flex-row justify-between items-center "> 
         <div class="m-5 text-4xl font-bold"><p>AhorrADAs</p></div>
         <div class="hidden m-12 lg:block">
-            <button id="Balance" class="m-5">Balance</button>
-            <button  id="Categorias"  class="m-5">Categorias</button>
-            <button id="Reportes" class="m-5">Reportes</button>
+            <button id="botonCalance" class="m-5">Balance</button>
+            <button  id="boyonCategorias"  class="m-5">Categorias</button>
+            <button id="botonReportes" class="m-5">Reportes</button>
         </div>
         <div class="md:hidden">
             <i class=" text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>
         </div>
     </header>
     <section class="lg:flex lg:flex-row lg:h-screen  lg:m-12 ">
-        <div class="flex flex-col p-6 lg:w-2/4">
-            <div class="bg-[white] h-62 w-5/6 mx-auto my-16 p-6 shadow-2xl border-[1px] border-gray lg:m-0 lg:m-0">
+        <div class="flex flex-col p-6 lg:w-2/4" >
+            <div class="bg-[white] h-62 w-5/6 mx-auto my-16 p-6 shadow-2xl border-[1px] border-gray lg:m-0 lg:m-0" id="balance">
                 <h2 class="text-3xl font-semibold">Balance</h2>
                 <div class="flex text-xl justify-between my-12">
                     <div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="bg-white] h-105 w-5/6 mx-auto my-10 p-6 flex flex-col shadow-2xl border-[1px] border-gray lg:mx-0 lg:my:1 lg:h-min ">
+            <div class="bg-white] h-105 w-5/6 mx-auto my-10 p-6 flex flex-col shadow-2xl border-[1px] border-gray lg:mx-0 lg:my:1 lg:h-min " id="filtros">
                 <h2 class="text-3xl my-5 font-semibold">Filtros</h2>
                 <label class="my-3 font-semibold" for="opciones">Tipo</label>
                 <select class="my-3" id="opciones" name="Todas">
@@ -75,17 +75,17 @@
 
 
         </div>
-        <div class="lg:w-[100%] lg:m-0">
+        <div class="lg:w-[100%] lg:m-0" id="operaciones">
             <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 shadow-2xl p-6 border-[1px] border-gray lg:h-3/4 lg:m-6" >
                 <h3 class="text-3xl text-start my-10 font-semibold"> Operaciones</h3>
-                <button class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
+                <button id="botonOperaciones" class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
 
                 <div class="text-center relative top-56 w-full">
                     <P class="py-6 text-2xl font-semibold">Sin resultados</P>
                     <p class="text-center w-full">Cambia los filtros o agrega operaciones</p>
                 </div>
             </section>
-            <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 border-[1px] border-gray shadow-2xl lg:hidden">
+            <section class="bg-white h-screen w-5/6 mx-auto my-12 p-4 border-[1px] border-gray shadow-2xl lg:hidden" id="categorias">
                 <h2 class="text-3xl my-5">
                     Categorias
                 </h2>
@@ -108,8 +108,8 @@
         </div>
     </section>
 
-    <section id="contein-modal" class="h-screen w-full absolute top-36 items-center flex items-center justify-center bg-{#000080}">
-        <div id="contain-modal" class="h-full w-full  m-12 bg-gray-300 flex flex-col p-6 rounded-md">
+    <section id="contein-modal" class="hidden h-screen w-full absolute top-36 items-center flex items-center justify-center bg-{#000080}">
+        <div id="contain-modal" class="h-full w-5/6  m-12 bg-gray-300 flex flex-col p-6 rounded-md">
             <h3 class="font-bold text-4xl my-2">Nueva operacion</h3>
             <form class="flex flex-col justify-around" action="">
                 <div class="py-6 flex flex-col">
