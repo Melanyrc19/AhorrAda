@@ -77,8 +77,32 @@
         </div>
         <div class="lg:w-[100%] lg:m-0" >
             <section id="operaciones" class="bg-white h-screen w-5/6 mx-auto my-12 p-4 shadow-2xl p-6 border-[1px] border-gray lg:h-3/4 lg:m-6" >
-                <h3 class="text-3xl text-start my-10 font-semibold"> Operaciones</h3>
-                <button id="botonOperaciones" class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
+                <div>
+                   <h3 class="text-3xl text-start my-10 font-semibold"> Operaciones</h3>
+                   <button id="botonOperaciones" class="border-2 bg-[#0db49ef6] rounded-md h-12 w-40 text-white">+Nueva operacion</button>
+                </div>
+                 <div id="contenidoOperacion">
+
+                    <div class="flex flex-row justify-between mt-6 font-semibold text-xl">
+                        <div id="contenido-descripcion">
+                            <p>Descripcion</p>
+                        </div>
+                        <div id="contenido-categorias"> 
+                            <p>Categorias</p>
+                        </div>
+                       <div id="contenido-fecha">
+                            <p>Fecha</p>
+                       </div>
+                       <div id="contenido-monto">
+                            <p>Monto</p>
+                       </div>
+                       <div id="contenido-acciones">
+                            <p>Acciones</p>
+                       </div>
+                    </div>
+
+
+                </div>
 
                 <div class="text-center relative top-56 w-full">
                     <P class="py-6 text-2xl font-semibold">Sin resultados</P>
@@ -111,35 +135,36 @@
     <section id="contein-modal" class="hidden h-screen w-full absolute top-20 items-center flex items-center justify-center">
         <div id="contain-modal" class=" h-auto w-auto md:w-5/6 m-12 p-6 md:p-[40px] bg-gray-300 flex flex-col rounded-md">
             <h3 class="font-bold text-4xl my-2">Nueva operacion</h3>
-            <form class="flex flex-col justify-around" action="">
+            <form id="form" class="flex flex-col justify-around" action="">
                 <div class="py-4 flex flex-col">
-                    <label for="">Descripcion</label>
-                    <input class="rounded-sm" type="text">
+                    <label for="descripcion">Descripcion</label>
+                    <input id="input-descripcion" class="rounded-sm" type="text">
                 </div>
                 <div class="py-4 flex flex-col"> 
-                    <label for="">Monto</label>
-                    <input class="rounded-sm"  type="number" name="" id="">
+                    <label for="input-monto">Monto</label>
+                    <input id="input-monto" class="rounded-sm"  type="number" name="" id="">
                 </div>
                 <div class="py-4 flex flex-col">
-                    <label for="">Tipo</label>
-                    <select class="rounded-sm"  name="" id="">
-                        <option value="">Gastos</option>
-                        <option value="">Ganancias</option>
+                    <label for="tipo">Tipo</label>
+                    <select class="rounded-sm"  name="" id="input-tipo">
+                        <option value="gastos">Gastos</option>
+                        <option value="ganancias">Ganancias</option>
                     </select>
                 </div>
                 <div class="py-4 flex flex-col">
-                    <label for="">Categorias</label>
-                    <select class="rounded-sm"  name="" id="">
-                        <option value="">Trabajo</option>
-                        <option value="">Educacion</option>
-                        <option value="">Transporte</option>
-                        <option value="">Salidas</option>
+                    <label for="input-categorias">Categorias</label>
+                    <select class="rounded-sm"  name="" id="input-categorias">
+                        <option value="trabajo">Trabajo</option>
+                        <option value="educacion">Educacion</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="salidas">Salidas</option>
                     </select>
                 </div>
                 <div class="py-4 flex flex-col">
-                    <label for="">Fecha</label>
-                    <input class="rounded-sm"  type="date">
+                    <label for="fechas">Fecha</label>
+                    <input id="input-fecha" class="rounded-sm"  type="date">
                 </div>
+                <button type="submit" class="border border-2 border-black bg-blue-500 w-1/2 rounded-md mx-auto text-center">Crear</button>
             </form>
 
 
