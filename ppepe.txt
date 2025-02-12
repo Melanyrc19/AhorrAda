@@ -1,0 +1,66 @@
+ <section id="balance" class="sm:flex md:flex-row">
+        <div class="w-full">
+          <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white my-6 ml-8"
+          >
+            <div class="text-lg font-semibold px-4 py-2">Balance</div>
+            <div class="p-4">
+              <div>
+                <p class="text-gray-700 text-sm lg:text-lg">Ganancias</p>
+                <p></p>
+              </div>
+              <div>
+                <p class="text-gray-700 text-sm lg:text-lg">Gastos</p>
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="w-full">
+          <div class="max-w-sm rounded-lg shadow-lg bg-white my-6 ml-8">
+            <div class="flex items-center justify-between px-4 py-2">
+              <div class="text-lg font-semibold">Filtro</div>
+              <div>Ocultar Filtro</div>
+            </div>
+
+            <div class="p-4">
+              <div class="mb-8">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Tipo</label
+                >
+                <select class="w-full mt-1 p-2 border rounded-md">
+                  <option>Todos</option>
+                  <option>Gastos</option>
+                  <option>Ganancias</option>
+                </select>
+              </div>
+              <div class="mb-3 mb-8">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Categoría</label
+                >
+                <select class="w-full mt-1 p-2 border rounded-md">
+                  <option>Todas</option>
+                  <option>Categoría 1</option>
+                  <option>Categoría 2</option>
+                </select>
+              </div>
+              <div class="mb-3 mb-8">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Desde</label
+                >
+                <input type="date" class="w-full mt-1 p-2 border rounded-md" />
+              </div>
+              <div class="mb-3 mb-8">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Ordenar por</label
+                >
+                <select class="w-full mt-1 p-2 border rounded-md">
+                  <option>Más reciente</option>
+                  <option>Más antiguo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
