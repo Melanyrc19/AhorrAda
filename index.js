@@ -6,10 +6,15 @@ function $$(selector) {
   return document.querySelectorAll(selector);
 }
 //variables
+const $menuHamburguesa = $("#menuHamburguesa")
+const $botonesMenu = $("#botonesMenu")
+
+
 const $buttonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
+
 const $formAñadirCategoria = $("#añadirCategoria")
 const $botonAñadirCategoria = $("botonAñadirCategoria")
 const $botonCategorias = $("#botonCategorias");
@@ -44,6 +49,11 @@ $botonCategorias.addEventListener('click',()=>{
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
 })
+
+// $menuHamburguesa.addEventListener('click',()=>{       hay que agregar que funcione el menu de hamburgesas en mobile y table
+//   $botonesMenu.classList.add = "block";
+//   $botonesMenu.classList.add = "flex";
+// })
 
 
 
@@ -117,7 +127,7 @@ const addCategorias = categoria =>{
   setCategorias([...getCategorias(),categoria])
 }
 
-// const inputListadosDeCategorias = $("#opcionesDeCategorias")
+// const inputDeCategorias = $("#opcionesDeCategorias")
 
 // gguardar:
 
@@ -133,7 +143,7 @@ const addCategorias = categoria =>{
     inputOpcionesDeCategorias.innerHTML = "categoria"
   })
 
-//
-  const AñadirNuevaCategoria = () =>
+// //
+//   const AñadirNuevaCategoria = () =>
 
 
