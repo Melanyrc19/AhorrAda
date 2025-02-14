@@ -27,7 +27,7 @@
     <main>
       <section
         id="balance"
-        class="container mx-auto flex flex-col sm:flex-row hidden"
+        class="container mx-auto flex flex-col sm:flex-row"
       >
         <div class="w-full sm:w-1/3">
           <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
@@ -92,7 +92,12 @@
           <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="flex items-center justify-between px-4 py-2">
               <div class="text-xl font-semibold">Operaciones</div>
-              <div>agregar</div>
+              <button
+              id="botonAgregar"
+              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+            >
+              Agregar
+            </button>
             </div>
             <div class="p-4">
               <div>
@@ -168,7 +173,7 @@
         
         </div>
       </section>
-      <section id="categorias">
+      <section id="categorias" class="container mx-auto hidden">
         <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="text-lg font-semibold px-4 py-2">Categorias</div>
             <div class="p-4 px-4 py-2">
