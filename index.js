@@ -14,6 +14,7 @@ const $buttonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
+const $botonCancelarOperacion = $("#botonCancelarOperacion")
 
 const $formAñadirCategoria = $("#añadirCategoria")
 const $botonAñadirCategoria = $("botonAñadirCategoria")
@@ -48,6 +49,11 @@ $botonCategorias.addEventListener('click',()=>{
   $sectionOperacion.classList.add("hidden")
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
+})
+$botonCancelarOperacion .addEventListener ('click',()=>{
+  $sectionOperacion.classList.add("hidden")
+  $sectionBalance.classList.remove("hidden");
+  $sectionCategoria.classList.add("hidden");
 })
 
 // $menuHamburguesa.addEventListener('click',()=>{       hay que agregar que funcione el menu de hamburgesas en mobile y table
@@ -86,37 +92,42 @@ $formOperacion.addEventListener('submit',(event)=>{
 
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
-  
+
   // Primero, agregamos los títulos de las columnas (solo una vez)
   let contenidoHTML = `
-    <div class="flex justify-between text-xl conteint">
-      <p class="py-6 px-4 font-bold">Descripción</p>
-      <p class="py-6 px-4 font-bold">Monto</p>
-      <p class="py-6 px-4 font-bold">Tipo</p>
-      <p class="py-6 px-4 font-bold">Categoría</p>
-      <p class="py-6 px-4 font-bold">Fecha</p>
-    </div>
-  `;
+  
+      <thead>
+        <tr class="hidden">
+          <th class="">Descripción</th>
+          <th class="">Categoria</th>
+          <th class="hidden md:block ">Tipo</th>
+          <th class="">Monto</th>
+          <th class="">Fecha</th>
+          <th class="">Acción</th>
+        </tr>
+      </thead>
+      <tbody>`;
 
   // Luego, iteramos sobre las operaciones y agregamos sus valores
-  for (let i = 0; i < operaciones.length; i++) {
-    const op = operaciones[i];
-
+  for (const operacion of operaciones) {
     contenidoHTML += `
-      <div class="flex justify-between text-xl conteint">
-        <p class="py-6 ">${op.descripcion}</p>
-        <p class="py-6">${op.monto}</p>
-        <p class="py-6">${op.tipo}</p>
-        <p class="py-6">${op.categoria}</p>
-        <p class="py-6">${op.fecha}</p>
-      </div>
-    `;
+      <tr class="flex flex-wrap w-2/3">
+        <td class=" text-start m-1">${operacion.descripcion}</td>
+        <td class=" text-start mt-1">${operacion.Categoria}</td>
+        <td class="hidden md:block  text-start m-1">${operacion.tipo}</td>
+        <td class=" text-start m-1">${operacion.monto}</td>
+        <td class=" hidden  text-start">${operacion.fecha}</td>
+        <td class="hidden md:block  text-start">
+          <button onclick="modificarOperacion(${operacion.id})">Modificar</button>
+        </td>
+      </tr>`;
   }
+// desccripcion monto y categoria en sm
+  contenidoHTML += `
+    </tbody>`;
 
-  // Finalmente, agregamos todo el contenido generado al contenedor
   $contenidoOPeraciones.innerHTML = contenidoHTML;
 };
-
 
 //// Funciones para manejar las categorías en localStorage
 const getCategorias = () => JSON.parse(localStorage.getItem("categorias")) || [];
@@ -127,41 +138,52 @@ const addCategoria = (categoria) => {
   setCategorias(categorias);
 };
 
+
+
+// tabla
+// cancelar funcione
+// que se pueda eliminar y editar
+// resetear formulario
+
+
+
+
+
 // // Función para actualizar el select de categorías
-// const actualizarSelectCategorias = () => {
-//   const categorias = getCategorias();
-//   const selectCategorias = document.querySelector("#listadoDeCategorias");
+ const actualizarSelectCategorias = () => {
+   const categorias = getCategorias();
+   const selectCategorias = document.querySelector("#listadoDeCategorias");
 
 //   // Limpiar el select antes de agregar las opciones
-//   selectCategorias.innerHTML = '';
+   selectCategorias.innerHTML = '';
 
 //   // Agregar las opciones al select
-//   categorias.forEach(categoria => {
-//     const option = document.createElement("option");
-//     option.value = categoria;
-//     option.textContent = categoria;
-//     selectCategorias.appendChild(option);
-//   });
-// };
+   categorias.forEach(categoria => {
+     const option = document.createElement("option");
+     option.value = categoria;
+     option.textContent = categoria;
+     selectCategorias.appendChild(option);
+   });
+ };
 
 // // Manejo del formulario para agregar nuevas categorías
-// document.querySelector("#añadirCategoria").addEventListener('submit', (event) => {
-//   event.preventDefault();
+ document.querySelector("#añadirCategoria").addEventListener('submit', (event) => {
+   event.preventDefault();
 
 //   // Obtener el valor del input
-//   const nuevaCategoria = event.target.querySelector("input[type='text']").value.trim();
+   const nuevaCategoria = event.target.querySelector("input[type='text']").value.trim();
   
-//   if (nuevaCategoria !== "") {
-//     addCategoria(nuevaCategoria); // Agregar nueva categoría a localStorage
-//     actualizarSelectCategorias(); // Actualizar el select
-//     event.target.querySelector("input[type='text']").value = ""; // Limpiar el campo de entrada
-//   }
-// });
+   if (nuevaCategoria !== "") {
+     addCategoria(nuevaCategoria); // Agregar nueva categoría a localStorage
+     actualizarSelectCategorias(); // Actualizar el select
+     event.target.querySelector("input[type='text']").value = ""; // Limpiar el campo de entrada
+   }
+ });
 
 // // Inicializar las categorías y actualizar el select
-// document.addEventListener("DOMContentLoaded", () => {
-//   actualizarSelectCategorias();
-// });
+ document.addEventListener("DOMContentLoaded", () => {
+   actualizarSelectCategorias();
+ });
 
 
 // // const actualizarCategorias = ( ) => {
@@ -175,3 +197,8 @@ const addCategoria = (categoria) => {
     
   
 // // };
+// init
+mostrarOperaciones();
+
+
+
