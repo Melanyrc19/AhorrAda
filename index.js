@@ -18,7 +18,7 @@ const $botonOPeracion = $("#btnOperacion");
 const $formAñadirCategoria = $("#añadirCategoria")
 const $botonAñadirCategoria = $("botonAñadirCategoria")
 const $botonCategorias = $("#botonCategorias");
-const inputListadosDeCategorias = $("#listadoDeCategorias")
+const $inputListadosDeCategorias = $("#listadoDeCategorias")
 
 //section 
 const $sectionBalance = $("#balance");
@@ -66,7 +66,7 @@ const addOperacion = operacion =>{
 
 
 
-// funciones para pintar datos de operacion:
+// funciones para  guardar datos de operacion:
 $formOperacion.addEventListener('submit',(event)=>{
   event.preventDefault();
   const operacion = {
@@ -82,7 +82,7 @@ $formOperacion.addEventListener('submit',(event)=>{
   
   mostrarOperaciones(); 
 })
-//objeto//
+//funcion para que se pinte:
 
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
@@ -118,32 +118,60 @@ const mostrarOperaciones = () => {
 };
 
 
-// funciones para sumar categoria.
-
-
+//// Funciones para manejar las categorías en localStorage
 const getCategorias = () => JSON.parse(localStorage.getItem("categorias")) || [];
-const setCategorias = categorias => localStorage.setItem("categorias",JSON.stringify(categorias));
-const addCategorias = categoria =>{
-  setCategorias([...getCategorias(),categoria])
-}
+const setCategorias = (categorias) => localStorage.setItem("categorias", JSON.stringify(categorias));
+const addCategoria = (categoria) => {
+  const categorias = getCategorias();
+  categorias.push(categoria);
+  setCategorias(categorias);
+};
 
-// const inputDeCategorias = $("#opcionesDeCategorias")
+// // Función para actualizar el select de categorías
+// const actualizarSelectCategorias = () => {
+//   const categorias = getCategorias();
+//   const selectCategorias = document.querySelector("#listadoDeCategorias");
 
-// gguardar:
+//   // Limpiar el select antes de agregar las opciones
+//   selectCategorias.innerHTML = '';
 
-  $formAñadirCategoria.addEventListener('submit',(event)=>{
-    event.preventDefault();
-    const Nuevascategorias = {
-      categoria: event.target.querySelector("[name='categoria']").value,
-     
-    }
-    console.log(categoria);
-   
-    addCategorias(categoria)
-    inputOpcionesDeCategorias.innerHTML = "categoria"
-  })
+//   // Agregar las opciones al select
+//   categorias.forEach(categoria => {
+//     const option = document.createElement("option");
+//     option.value = categoria;
+//     option.textContent = categoria;
+//     selectCategorias.appendChild(option);
+//   });
+// };
 
-// //
-//   const AñadirNuevaCategoria = () =>
+// // Manejo del formulario para agregar nuevas categorías
+// document.querySelector("#añadirCategoria").addEventListener('submit', (event) => {
+//   event.preventDefault();
+
+//   // Obtener el valor del input
+//   const nuevaCategoria = event.target.querySelector("input[type='text']").value.trim();
+  
+//   if (nuevaCategoria !== "") {
+//     addCategoria(nuevaCategoria); // Agregar nueva categoría a localStorage
+//     actualizarSelectCategorias(); // Actualizar el select
+//     event.target.querySelector("input[type='text']").value = ""; // Limpiar el campo de entrada
+//   }
+// });
+
+// // Inicializar las categorías y actualizar el select
+// document.addEventListener("DOMContentLoaded", () => {
+//   actualizarSelectCategorias();
+// });
 
 
+// // const actualizarCategorias = ( ) => {
+
+// //   const categorias = getCategorias ();
+// //   const $contenedorDeCategorias = $("#listadoDeCategorias");
+
+// //     // Añadir cada categoría al contenedor
+// //     console.log(actualizarCategorias);
+// //     console.log(cetegorias);
+    
+  
+// // };
