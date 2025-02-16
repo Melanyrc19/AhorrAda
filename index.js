@@ -1,3 +1,4 @@
+// Funciones utilitarias
 function $(selector) {
   return document.querySelector(selector);
 }
@@ -5,90 +6,67 @@ function $(selector) {
 function $$(selector) {
   return document.querySelectorAll(selector);
 }
-//variables
-const $menuHamburguesa = $("#menuHamburguesa")
-const $botonesMenu = $("#botonesMenu")
 
+// Variables
+// Menu
+const $menuHamburguesa = $("#menuHamburguesa");
+const $botonesMenu = $("#botonesMenu");
 
+// Balance y Operación
 const $buttonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
-const $botonCancelarOperacion = $("#botonCancelarOperacion")
 
-const $formAñadirCategoria = $("#añadirCategoria")
-const $botonAñadirCategoria = $("botonAñadirCategoria")
+// Categorías
+const $añadirCategoria = $("#añadirCategoria");
+const $botonAñadirCategoria = $("#botonAñadirCategoria");
 const $botonCategorias = $("#botonCategorias");
-const $inputListadosDeCategorias = $("#listadoDeCategorias")
+const $inputListadosDeCategorias = $("#listadoDeCategorias");
+const $listadoDeCategoriasVista = $("#listadoDeCategoriasVista");
 
-//section 
+// Secciones
 const $sectionBalance = $("#balance");
 const $sectionOperacion = $("#operacion");
-const $sectionCategoria = $("#categorias")
-const $contenidoOPeraciones = $("#contenidoOperaciones")
+const $sectionCategoria = $("#categorias");
+const $contenidoOPeraciones = $("#contenidoOperaciones");
 
+// Funciones para localStorage
+const getCategorias = () =>
+  JSON.parse(localStorage.getItem("categorias")) || ["Comida","Servicio","Salud","Educacion","Trabajo","Transporte"];
+const setCategorias = (categorias) =>
+  localStorage.setItem("categorias", JSON.stringify(categorias));
 
-//Evento 
-$buttonBalance.addEventListener("click", () => {
-  $sectionBalance.classList.remove("hidden");
-  $sectionOperacion.classList.add("hidden")
-  $sectionCategoria.classList.add("hidden")
-});
-$botonAgregar.addEventListener ("click",() =>{
-  $sectionOperacion.classList.remove("hidden") 
-  $sectionBalance.classList.add("hidden")
-  $sectionCategoria.classList.add("hidden")
-})
+const getOperaciones = () =>
+  JSON.parse(localStorage.getItem("operaciones")) || [];
+const setOperaciones = (operaciones) =>
+  localStorage.setItem("operaciones", JSON.stringify(operaciones));
 
-$botonOPeracion.addEventListener('click',()=>{
-  $sectionOperacion.classList.add("hidden")
-  $sectionBalance.classList.remove("hidden");
-  $sectionCategoria.classList.add("hidden")
-})
-$botonCategorias.addEventListener('click',()=>{
-  $sectionOperacion.classList.add("hidden")
-  $sectionBalance.classList.add("hidden");
-  $sectionCategoria.classList.remove("hidden");
-})
-$botonCancelarOperacion .addEventListener ('click',()=>{
-  $sectionOperacion.classList.add("hidden")
-  $sectionBalance.classList.remove("hidden");
-  $sectionCategoria.classList.add("hidden");
-})
+// Funciones de Categorías
+const addCategoria = (categoria) => {
+  setCategorias([...getCategorias(), categoria]);
+};
 
-// $menuHamburguesa.addEventListener('click',()=>{       hay que agregar que funcione el menu de hamburgesas en mobile y table
-//   $botonesMenu.classList.add = "block";
-//   $botonesMenu.classList.add = "flex";
-// })
-
-
-
-//Operaciones
-const getOperaciones = () => JSON.parse(localStorage.getItem("operaciones")) || [];
-const setOperaciones = operaciones => localStorage.setItem("operaciones",JSON.stringify(operaciones));
-const addOperacion = operacion =>{
-  setOperaciones([...getOperaciones(),operacion])
-}
-
-
-
-// funciones para  guardar datos de operacion:
-$formOperacion.addEventListener('submit',(event)=>{
-  event.preventDefault();
-  const operacion = {
-    descripcion: event.target.querySelector("[name='descripcion']").value,
-    monto:  event.target.querySelector("[name='monto']").value,
-    tipo:  event.target.querySelector("[name='tipo']").value,
-    categoria:  event.target.querySelector("[name='categoria']").value,
-    fecha:  event.target.querySelector("[name='fecha']").value,
+const mostrarCategorias = () => {
+  const categorias = getCategorias();
+  let aux = "";
+  for (const categoria of categorias) {
+    aux += ` 
+      <div class="flex flex-row pr-4 pl-4 m-auto ">
+        <span>${categoria}</span>
+        <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
+          <button class="text-sky-600">Editar</button>
+          <button class="text-sky-600">Eliminar</button>
+        </div>
+      </div>`;
   }
-  console.log(operacion);
- 
-  addOperacion(operacion)
-  
-  mostrarOperaciones(); 
-})
-//funcion para que se pinte:
+  $listadoDeCategoriasVista.innerHTML = aux;
+};
+
+// Funciones de Operaciones
+const addOperacion = (operacion) => {
+  setOperaciones([...getOperaciones(), operacion]);
+};
 
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
@@ -129,76 +107,52 @@ const mostrarOperaciones = () => {
   $contenidoOPeraciones.innerHTML = contenidoHTML;
 };
 
-//// Funciones para manejar las categorías en localStorage
-const getCategorias = () => JSON.parse(localStorage.getItem("categorias")) || [];
-const setCategorias = (categorias) => localStorage.setItem("categorias", JSON.stringify(categorias));
-const addCategoria = (categoria) => {
-  const categorias = getCategorias();
-  categorias.push(categoria);
-  setCategorias(categorias);
-};
+// Eventos de navegación
+$buttonBalance.addEventListener("click", () => {
+  $sectionBalance.classList.remove("hidden");
+  $sectionOperacion.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+});
 
+$botonAgregar.addEventListener("click", () => {
+  $sectionOperacion.classList.remove("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+});
 
+$botonOPeracion.addEventListener("click", () => {
+  $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.remove("hidden");
+  $sectionCategoria.classList.add("hidden");
+});
 
-// tabla
-// cancelar funcione
-// que se pueda eliminar y editar
-// resetear formulario
+$botonCategorias.addEventListener("click", () => {
+  $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.remove("hidden");
+});
 
+// Eventos de Categorías
+$botonAñadirCategoria.addEventListener("click", () => {
+  const categoria = $añadirCategoria.value;
+  $añadirCategoria.value = "";
+  addCategoria(categoria);
+  mostrarCategorias();
+});
 
+// Evento de Operación
+$formOperacion.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const operacion = {
+    descripcion: event.target.querySelector("[name='descripcion']").value,
+    monto: event.target.querySelector("[name='monto']").value,
+    tipo: event.target.querySelector("[name='tipo']").value,
+    categoria: event.target.querySelector("[name='categoria']").value,
+    fecha: event.target.querySelector("[name='fecha']").value,
+  };
+  addOperacion(operacion);
+  mostrarOperaciones();
+});
 
-
-
-// // Función para actualizar el select de categorías
- const actualizarSelectCategorias = () => {
-   const categorias = getCategorias();
-   const selectCategorias = document.querySelector("#listadoDeCategorias");
-
-//   // Limpiar el select antes de agregar las opciones
-   selectCategorias.innerHTML = '';
-
-//   // Agregar las opciones al select
-   categorias.forEach(categoria => {
-     const option = document.createElement("option");
-     option.value = categoria;
-     option.textContent = categoria;
-     selectCategorias.appendChild(option);
-   });
- };
-
-// // Manejo del formulario para agregar nuevas categorías
- document.querySelector("#añadirCategoria").addEventListener('submit', (event) => {
-   event.preventDefault();
-
-//   // Obtener el valor del input
-   const nuevaCategoria = event.target.querySelector("input[type='text']").value.trim();
-  
-   if (nuevaCategoria !== "") {
-     addCategoria(nuevaCategoria); // Agregar nueva categoría a localStorage
-     actualizarSelectCategorias(); // Actualizar el select
-     event.target.querySelector("input[type='text']").value = ""; // Limpiar el campo de entrada
-   }
- });
-
-// // Inicializar las categorías y actualizar el select
- document.addEventListener("DOMContentLoaded", () => {
-   actualizarSelectCategorias();
- });
-
-
-// // const actualizarCategorias = ( ) => {
-
-// //   const categorias = getCategorias ();
-// //   const $contenedorDeCategorias = $("#listadoDeCategorias");
-
-// //     // Añadir cada categoría al contenedor
-// //     console.log(actualizarCategorias);
-// //     console.log(cetegorias);
-    
-  
-// // };
-// init
-mostrarOperaciones();
-
-
-
+// Inicialización
+mostrarCategorias();
