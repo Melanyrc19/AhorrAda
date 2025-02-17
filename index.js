@@ -51,6 +51,8 @@ const addCategoria = (categoriaNombre) => {
 const mostrarCategorias = () => {
   const categorias = getCategorias();
   let aux = "";
+
+
   for (const categoria of categorias) {
     const categoriaId = crypto.randomUUID();
     
@@ -58,19 +60,36 @@ const mostrarCategorias = () => {
      <div id="${categoria.id}" class="flex flex-row pr-4 pl-4 m-auto ">
       <span>${categoria.nombre}</span>
       <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-        <button class="text-sky-600" data-id="${categoria.id}">Editar</button>
+        <button class="text-sky-600 botonEditar" data-id="${categoria.id}">Editar</button>
         <button class="text-sky-600 botonEliminar" data-id="${categoria.id}">Eliminar</button>
       </div>
     </div>`;
   }
   document.getElementById('listadoDeCategoriasVista').innerHTML = aux;
-  const botonEliminar = document.querySelectorAll(".botonEliminar");
-  botonEliminar.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      quitarCategoria(e.target.dataset.id); 
+
+
+     const arrayBotonEliminar = $$(".botonEliminar");
+     const arrayBotonEditar = $$(".botonEditar");
+
+     
+     arrayBotonEliminar.forEach((button) => {
+         button.addEventListener("click", (e) => {
+           quitarCategoria(e.target.dataset.id); 
+    
     });
+    
   });
+     
+     arrayBotonEditar.forEach((button) => {
+       button.addEventListener("click", (e) => {
+        editarCategoria(e.target.dataset.id); 
+
+  });
+  
+});
 };
+
+
 
 function quitarCategoria(id) {
 
@@ -78,6 +97,22 @@ function quitarCategoria(id) {
   categorias = categorias.filter((categoria) => categoria.id !== id);
   setCategorias(categorias);
   mostrarCategorias();
+}
+
+
+function editarCategoria(id) {
+  let categorias = getCategorias();
+  const categoria = categorias.find((categoria) => categoria.id === id);
+  
+  if (categoria) {
+    
+    const nuevoNombre = prompt("Ingresa el nuevo nombre de la categoría:", categoria.nombre);
+    if (nuevoNombre) {
+      categoria.nombre = nuevoNombre;
+      setCategorias(categorias);
+      mostrarCategorias();
+    }
+  }
 }
 
 // Funciones de Operaciones
@@ -88,7 +123,7 @@ const addOperacion = (operacion) => {
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
 
-  // Primero, agregamos los títulos de las columnas (solo una vez)
+  // Primero, agregamos los títulos de las columnas 
   let contenidoHTML = `
   
       <thead>
