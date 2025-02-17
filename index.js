@@ -67,22 +67,16 @@ const mostrarCategorias = () => {
   const botonEliminar = document.querySelectorAll(".botonEliminar");
   botonEliminar.forEach((button) => {
     button.addEventListener("click", (e) => {
-      quitarCategoria(e.target.dataset.id); // Usamos el id almacenado en data-id
+      quitarCategoria(e.target.dataset.id); 
     });
   });
 };
 
 function quitarCategoria(id) {
-  // Obtener las categorías actuales desde localStorage
+
   let categorias = getCategorias();
-
-  // Filtrar las categorías y eliminar la que tiene el id correspondiente
   categorias = categorias.filter((categoria) => categoria.id !== id);
-
-  // Guardar las categorías actualizadas en localStorage
   setCategorias(categorias);
-
-  // Mostrar las categorías actualizadas
   mostrarCategorias();
 }
 
