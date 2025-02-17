@@ -43,25 +43,48 @@ const setOperaciones = (operaciones) =>
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
 
 // Funciones de Categorías
-const addCategoria = (categoria) => {
-  setCategorias([...getCategorias(), categoria]);
+const addCategoria = (categoriaNombre) => {
+  const nuevaCategoria = { id: crypto.randomUUID(), nombre: categoriaNombre };
+  setCategorias([...getCategorias(), nuevaCategoria]);
 };
 
 const mostrarCategorias = () => {
   const categorias = getCategorias();
   let aux = "";
   for (const categoria of categorias) {
+    const categoriaId = crypto.randomUUID();
+    
     aux += ` 
-      <div class="flex flex-row pr-4 pl-4 m-auto ">
-        <span>${categoria}</span>
-        <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-          <button class="text-sky-600">Editar</button>
-          <button class="text-sky-600">Eliminar</button>
-        </div>
-      </div>`;
+     <div id="${categoria.id}" class="flex flex-row pr-4 pl-4 m-auto ">
+      <span>${categoria.nombre}</span>
+      <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
+        <button class="text-sky-600" data-id="${categoria.id}">Editar</button>
+        <button class="text-sky-600 botonEliminar" data-id="${categoria.id}">Eliminar</button>
+      </div>
+    </div>`;
   }
-  $listadoDeCategoriasVista.innerHTML = aux;
+  document.getElementById('listadoDeCategoriasVista').innerHTML = aux;
+  const botonEliminar = document.querySelectorAll(".botonEliminar");
+  botonEliminar.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      quitarCategoria(e.target.dataset.id); // Usamos el id almacenado en data-id
+    });
+  });
 };
+
+function quitarCategoria(id) {
+  // Obtener las categorías actuales desde localStorage
+  let categorias = getCategorias();
+
+  // Filtrar las categorías y eliminar la que tiene el id correspondiente
+  categorias = categorias.filter((categoria) => categoria.id !== id);
+
+  // Guardar las categorías actualizadas en localStorage
+  setCategorias(categorias);
+
+  // Mostrar las categorías actualizadas
+  mostrarCategorias();
+}
 
 // Funciones de Operaciones
 const addOperacion = (operacion) => {
