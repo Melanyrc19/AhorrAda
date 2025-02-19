@@ -59,7 +59,7 @@ const setOperaciones = (operaciones) =>
 const addOperacion = (operacion) => {
   setOperaciones([...getOperaciones(), operacion]);
 };
-
+// funcion para actualizar las nuevas categorias al selec
 const mostrarCategoriasEnSelect = () => {
   const categorias = getCategorias();
   const selectCategoria = $("[name='categoria']"); 
@@ -76,7 +76,7 @@ const mostrarCategoriasEnSelect = () => {
 
 const mostrarCategorias = () => {
   const categorias = getCategorias();
-  mostrarCategoriasEnSelect();
+  mostrarCategoriasEnSelect(); //se actualiza categorias
   let aux = "";
 
 
@@ -96,7 +96,6 @@ const mostrarCategorias = () => {
 
      const arrayBotonEliminar = $$(".botonEliminar");
      const arrayBotonEditar = $$(".botonEditar");
-     aux += setNuevaCategoria;
      
      arrayBotonEliminar.forEach((button) => {
          button.addEventListener("click", (e) => {
@@ -140,30 +139,30 @@ const mostrarOperaciones = () => {
 
   let contenidoHTML = `
       <thead>
-        <tr class="hidden">
-          <th class="">Descripción</th>
-          <th class="">Categoria</th>
-          <th class="hidden md:block ">Tipo</th>
-          <th class="">Monto</th>
-          <th class="">Fecha</th>
-          <th class="">Acción</th>
-        </tr>
+         <tr>
+        <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
+        <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
+        <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Tipo</th>
+        <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
+        <th class="text-left font-bold text-sm py-3 px-4">Fecha</th>
+        <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
+      </tr>
       </thead>
       <tbody>`;
 
   // iteramos sobre las operaciones y agregamos sus valores
   for (const operacion of operaciones) {
     contenidoHTML += `
-      <tr class="flex flex-wrap w-2/3">
-        <td class=" text-start m-1">${operacion.descripcion}</td>
-        <td class=" text-start mt-1">${operacion.Categoria}</td>
-        <td class="hidden md:block  text-start m-1">${operacion.tipo}</td>
-        <td class=" text-start m-1">${operacion.monto}</td>
-        <td class=" hidden  text-start">${operacion.fecha}</td>
-        <td class="hidden md:block  text-start">
-          <button onclick="modificarOperacion(${operacion.id})">Modificar</button>
-        </td>
-      </tr>`;
+    <tr class="text-sm">
+      <td class="text-left px-4 py-3">${operacion.descripcion}</td>
+      <td class="text-left px-4 py-3">${operacion.Categoria}</td>
+      <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
+      <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
+      <td class="text-left px-4 py-3">${operacion.fecha}</td>
+      <td class="text-left px-4 py-3">
+        <button onclick="modificarOperacion(${operacion.id})" class="">Modificar</button>
+      </td>
+    </tr>`;
   }
   contenidoHTML += `
     </tbody>`;
@@ -222,3 +221,4 @@ $formOperacion.addEventListener("submit", (event) => {
 
 // Inicialización
 mostrarCategorias();
+mostrarOperaciones();
