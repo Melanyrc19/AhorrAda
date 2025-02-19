@@ -24,7 +24,8 @@ const $botonAñadirCategoria = $("#botonAñadirCategoria");
 const $botonCategorias = $("#botonCategorias");
 const $inputListadosDeCategorias = $("#listadoDeCategorias");
 const $listadoDeCategoriasVista = $("#listadoDeCategoriasVista");
-
+const $inputEditarCategorias = $("#inputEditarCategorias");
+ 
 // Secciones
 const $sectionBalance = $("#balance");
 const $sectionOperacion = $("#operacion");
@@ -106,6 +107,7 @@ const mostrarCategorias = () => {
      arrayBotonEditar.forEach((button) => {
        button.addEventListener("click", (e) => {
         editarCategoria(e.target.dataset.id); 
+        $inputEditarCategorias.classList.toglee = "hidden"
         
         });
       });
@@ -123,19 +125,35 @@ function editarCategoria(id) {
   const categoria = categorias.find((categoria) => categoria.id === id);
 
   if (categoria) {
-    const nuevoNombre = prompt("Ingresa el nuevo nombre de la categoría:", categoria.nombre);
-    if (nuevoNombre) {
-      categoria.nombre = nuevoNombre;
-      setCategorias(categorias);
-      mostrarCategorias();
+    const formEditar = $("#inputEditarCategorias");
+    formEditar.classList.remove("hidden");
+    $sectionCategoria.classList.add("hidden");
 
-    }
+    const inputCategoriaNombre = $("#inputCategoriaNombre");
+    inputCategoriaNombre.value = categoria.nombre;
+
+    const botonEditarCategoria = $("#botonEditarCategoriaInput");
+
+    botonEditarCategoria.addEventListener("click", () => {
+      const nuevoNombre = inputCategoriaNombre.value;
+    
+      if (nuevoNombre) {
+        categoria.nombre = nuevoNombre;
+        setCategorias(categorias);
+        mostrarCategorias();
+
+        formEditar.classList.add("hidden");
+        $sectionCategoria.classList.remove("hidden");
+      }
+    });
   }
 }
 
+
+
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
-  const categorias = getCategorias(); // Obtenemos todas las categorías
+  const categorias = getCategorias(); 
 
   let contenidoHTML = `
     <thead>
@@ -173,6 +191,8 @@ const mostrarOperaciones = () => {
   $contenidoOPeraciones.innerHTML = contenidoHTML;
 };
 
+
+
 // Eventos de navegación
 $buttonBalance.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
@@ -196,6 +216,7 @@ $botonCategorias.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
+  $inputEditarCategorias.classList.add("hidden");
 });
 
 // Eventos de Categorías
