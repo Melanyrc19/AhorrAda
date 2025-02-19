@@ -32,7 +32,7 @@ const $sectionCategoria = $("#categorias");
 const $contenidoOPeraciones = $("#contenidoOperaciones");
 
 // Funciones para localStorage
-// Funciones de Categorías
+// Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
 const getCategorias = () => 
   JSON.parse(localStorage.getItem("categorias")) || [
     { id: crypto.randomUUID(), nombre: "Comida" },
@@ -135,11 +135,11 @@ function editarCategoria(id) {
 
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
-  
+  const categorias = getCategorias(); // Obtenemos todas las categorías
 
   let contenidoHTML = `
-      <thead>
-         <tr>
+    <thead>
+      <tr>
         <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
         <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
         <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Tipo</th>
@@ -147,26 +147,29 @@ const mostrarOperaciones = () => {
         <th class="text-left font-bold text-sm py-3 px-4">Fecha</th>
         <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
       </tr>
-      </thead>
-      <tbody>`;
+    </thead>
+    <tbody>`;
 
-  // iteramos sobre las operaciones y agregamos sus valores
+  // Iteramos sobre las operaciones
   for (const operacion of operaciones) {
-    contenidoHTML += `
-    <tr class="text-sm">
-      <td class="text-left px-4 py-3">${operacion.descripcion}</td>
-      <td class="text-left px-4 py-3">${operacion.Categoria}</td>
-      <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
-      <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
-      <td class="text-left px-4 py-3">${operacion.fecha}</td>
-      <td class="text-left px-4 py-3">
-        <button onclick="modificarOperacion(${operacion.id})" class="">Modificar</button>
-      </td>
-    </tr>`;
-  }
-  contenidoHTML += `
-    </tbody>`;
+    // Encontramos la categoría correspondiente a esta operación
+    const categoria = categorias.find(categoriaParametro => categoriaParametro.id === operacion.categoria);
+    const nombreCategoria = categoria ? categoria.nombre : "Categoría no encontrada";
 
+    contenidoHTML += `
+      <tr class="text-sm">
+        <td class="text-left px-4 py-3">${operacion.descripcion}</td>
+        <td class="text-left px-4 py-3">${nombreCategoria}</td> <!-- Mostramos el nombre de la categoría -->
+        <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
+        <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
+        <td class="text-left px-4 py-3">${operacion.fecha}</td>
+        <td class="text-left px-4 py-3">
+          <button onclick="modificarOperacion(${operacion.id})" class="">Modificar</button>
+        </td>
+      </tr>`;
+  }
+
+  contenidoHTML += `</tbody>`;
   $contenidoOPeraciones.innerHTML = contenidoHTML;
 };
 
