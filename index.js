@@ -32,29 +32,55 @@ const $sectionCategoria = $("#categorias");
 const $contenidoOPeraciones = $("#contenidoOperaciones");
 
 // Funciones para localStorage
-const getCategorias = () =>
-  JSON.parse(localStorage.getItem("categorias")) || ["Comida","Servicio","Salud","Educacion","Trabajo","Transporte"];
+// Funciones de Categorías
+const getCategorias = () => 
+  JSON.parse(localStorage.getItem("categorias")) || [
+    { id: crypto.randomUUID(), nombre: "Comida" },
+    { id: crypto.randomUUID(), nombre: "Servicio" },
+    { id: crypto.randomUUID(), nombre: "Salud" },
+    { id: crypto.randomUUID(), nombre: "Educacion" },
+    { id: crypto.randomUUID(), nombre: "Trabajo" },
+    { id: crypto.randomUUID(), nombre: "Transporte" },
+  ];
+  
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
-
-const getOperaciones = () =>
-  JSON.parse(localStorage.getItem("operaciones")) || [];
-const setOperaciones = (operaciones) =>
-  localStorage.setItem("operaciones", JSON.stringify(operaciones));
-
-// Funciones de Categorías
 const addCategoria = (categoriaNombre) => {
   const nuevaCategoria = { id: crypto.randomUUID(), nombre: categoriaNombre };
   setCategorias([...getCategorias(), nuevaCategoria]);
 };
 
+
+// Funciones de Operaciones
+const getOperaciones = () =>
+  JSON.parse(localStorage.getItem("operaciones")) || [];
+const setOperaciones = (operaciones) =>
+  localStorage.setItem("operaciones", JSON.stringify(operaciones));
+const addOperacion = (operacion) => {
+  setOperaciones([...getOperaciones(), operacion]);
+};
+
+const mostrarCategoriasEnSelect = () => {
+  const categorias = getCategorias();
+  const selectCategoria = $("[name='categoria']"); 
+  
+  selectCategoria.innerHTML = '';
+
+  categorias.forEach(categoria => {
+    const option = document.createElement("option");
+    option.value = categoria.id;
+    option.textContent = categoria.nombre;
+    selectCategoria.appendChild(option);
+  });
+};
+
 const mostrarCategorias = () => {
   const categorias = getCategorias();
+  mostrarCategoriasEnSelect();
   let aux = "";
 
 
   for (const categoria of categorias) {
-    const categoriaId = crypto.randomUUID();
     
     aux += ` 
      <div id="${categoria.id}" class="flex flex-row pr-4 pl-4 m-auto ">
@@ -65,67 +91,54 @@ const mostrarCategorias = () => {
       </div>
     </div>`;
   }
-  document.getElementById('listadoDeCategoriasVista').innerHTML = aux;
-
+     listadoDeCategoriasVista.innerHTML = aux;
+     
 
      const arrayBotonEliminar = $$(".botonEliminar");
      const arrayBotonEditar = $$(".botonEditar");
-
+     aux += setNuevaCategoria;
      
      arrayBotonEliminar.forEach((button) => {
          button.addEventListener("click", (e) => {
            quitarCategoria(e.target.dataset.id); 
-    
-    });
-    
-  });
-     
+          
+         });
+      });
      arrayBotonEditar.forEach((button) => {
        button.addEventListener("click", (e) => {
         editarCategoria(e.target.dataset.id); 
-
-  });
-  
-});
+        
+        });
+      });
 };
 
-
-
 function quitarCategoria(id) {
-
   let categorias = getCategorias();
   categorias = categorias.filter((categoria) => categoria.id !== id);
   setCategorias(categorias);
   mostrarCategorias();
+
 }
-
-
 function editarCategoria(id) {
   let categorias = getCategorias();
   const categoria = categorias.find((categoria) => categoria.id === id);
-  
+
   if (categoria) {
-    
     const nuevoNombre = prompt("Ingresa el nuevo nombre de la categoría:", categoria.nombre);
     if (nuevoNombre) {
       categoria.nombre = nuevoNombre;
       setCategorias(categorias);
       mostrarCategorias();
+
     }
   }
 }
 
-// Funciones de Operaciones
-const addOperacion = (operacion) => {
-  setOperaciones([...getOperaciones(), operacion]);
-};
-
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
-
-  // Primero, agregamos los títulos de las columnas 
-  let contenidoHTML = `
   
+
+  let contenidoHTML = `
       <thead>
         <tr class="hidden">
           <th class="">Descripción</th>
@@ -138,7 +151,7 @@ const mostrarOperaciones = () => {
       </thead>
       <tbody>`;
 
-  // Luego, iteramos sobre las operaciones y agregamos sus valores
+  // iteramos sobre las operaciones y agregamos sus valores
   for (const operacion of operaciones) {
     contenidoHTML += `
       <tr class="flex flex-wrap w-2/3">
@@ -152,7 +165,6 @@ const mostrarOperaciones = () => {
         </td>
       </tr>`;
   }
-// desccripcion monto y categoria en sm
   contenidoHTML += `
     </tbody>`;
 
@@ -190,6 +202,8 @@ $botonAñadirCategoria.addEventListener("click", () => {
   $añadirCategoria.value = "";
   addCategoria(categoria);
   mostrarCategorias();
+  serNuevaCategoria();
+
 });
 
 // Evento de Operación
