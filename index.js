@@ -30,7 +30,8 @@ const $inputEditarCategorias = $("#inputEditarCategorias");
 const $sectionBalance = $("#balance");
 const $sectionOperacion = $("#operacion");
 const $sectionCategoria = $("#categorias");
-const $contenidoOPeraciones = $("#contenidoOperaciones");
+const $contenidoOperaciones = $("#contenidoOperaciones");
+const $seccionEditarOperacion = $("#seccionEditarOperacion");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -193,15 +194,55 @@ const mostrarOperaciones = () => {
   }
 
   contenidoHTML += `</tbody>`;
-  $contenidoOPeraciones.innerHTML = contenidoHTML;
+  $contenidoOperaciones.innerHTML = contenidoHTML;
 
   const botonesEditar = $$(".botonEditar");
   for (const botonEditar of botonesEditar) {
     botonEditar.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
-      console.log(getOperacion(id));
-      
+      const operacion = getOperacion(id)
+      $sectionBalance.classList.add("hidden")
+      let editarform = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
+                <div class="text-lg font-semibold px-4 py-2">Editar Operación</div>
+                <div class="p-4">
+                  <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                    <input id="editarDescripcion" type="text" class="w-full mt-1 p-2 border rounded-md" />
+                  </div>
+                  <div class="mb-3 mb-8">
+                    <label class="block text-sm font-medium text-gray-700">Monto</label>
+                    <input id="editarMonto" type="number" class="w-full mt-1 p-2 border rounded-md" />
+                  </div>
+                  <div class="mb-3 mb-8">
+                    <label class="block text-sm font-medium text-gray-700">Tipo</label>
+                    <select id="editarTipo" class="w-full mt-1 p-2 border rounded-md">
+                      <option>Ganancias</option>
+                      <option>Gastos</option>
+                    </select>
+                  </div>
+                  <div class="mb-3 mb-8">
+                    <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                    <select id="editarCategoria" class="w-full mt-1 p-2 border rounded-md">
+                    
+                    </select>
+                  </div>
+                  <div class="mb-3 mb-8">
+                    <label class="block text-sm font-medium text-gray-700">Fecha</label>
+                    <input id="editarFecha" type="date" class="w-full mt-1 p-2 border rounded-md" />
+                  </div>
+                  <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
+                    <button id="btnGuardarOperacion" type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+                      Guardar Cambios
+                    </button>
+                    <button id="btnCancelarEdicion" type="button" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-100">
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </form>`
+              $seccionEditarOperacion.innerHTML = editarform;
     });
+    
   }
 };
 
