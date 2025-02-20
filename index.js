@@ -202,16 +202,22 @@ const mostrarOperaciones = () => {
       const id = e.target.dataset.id;
       const operacion = getOperacion(id)
       $sectionBalance.classList.add("hidden")
+      const categorias = getCategorias();
+      let aux = "";
+      for (const categoria of categorias) {
+        aux += `<option value= "${categoria.id}" ${categoria.id ===operaciones.categoria ? "selected" : ""} > ${categoria.nombre} </option>`
+      }
+      
       let editarform = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
                 <div class="text-lg font-semibold px-4 py-2">Editar Operación</div>
                 <div class="p-4">
                   <div class="mb-8">
                     <label class="block text-sm font-medium text-gray-700">Descripción</label>
-                    <input id="editarDescripcion" type="text" class="w-full mt-1 p-2 border rounded-md" />
+                    <input id="editarDescripcion" value="${operacion.descripcion}" type="text" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Monto</label>
-                    <input id="editarMonto" type="number" class="w-full mt-1 p-2 border rounded-md" />
+                    <input value="${operacion.monto}" id="editarMonto" type="number" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Tipo</label>
@@ -222,13 +228,13 @@ const mostrarOperaciones = () => {
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Categoría</label>
-                    <select id="editarCategoria" class="w-full mt-1 p-2 border rounded-md">
-                    
+                    <select  "id="editarCategoria" class="w-full mt-1 p-2 border rounded-md">
+                      ${aux}
                     </select>
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Fecha</label>
-                    <input id="editarFecha" type="date" class="w-full mt-1 p-2 border rounded-md" />
+                    <input id="editarFecha" value="${operacion.fecha}" type="date" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
                     <button id="btnGuardarOperacion" type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
