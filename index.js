@@ -25,7 +25,7 @@ const $botonCategorias = $("#botonCategorias");
 const $inputListadosDeCategorias = $("#listadoDeCategorias");
 const $listadoDeCategoriasVista = $("#listadoDeCategoriasVista");
 const $inputEditarCategorias = $("#inputEditarCategorias");
- 
+
 // Secciones
 const $sectionBalance = $("#balance");
 const $sectionOperacion = $("#operacion");
@@ -34,7 +34,7 @@ const $contenidoOPeraciones = $("#contenidoOperaciones");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
-const getCategorias = () => 
+const getCategorias = () =>
   JSON.parse(localStorage.getItem("categorias")) || [
     { id: crypto.randomUUID(), nombre: "Comida" },
     { id: crypto.randomUUID(), nombre: "Servicio" },
@@ -43,7 +43,7 @@ const getCategorias = () =>
     { id: crypto.randomUUID(), nombre: "Trabajo" },
     { id: crypto.randomUUID(), nombre: "Transporte" },
   ];
-  
+
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
 const addCategoria = (categoriaNombre) => {
@@ -51,23 +51,31 @@ const addCategoria = (categoriaNombre) => {
   setCategorias([...getCategorias(), nuevaCategoria]);
 };
 
-
 // Funciones de Operaciones
+const clearOp = () =>{
+  localStorage.removeItem("operaciones")
+}
 const getOperaciones = () =>
   JSON.parse(localStorage.getItem("operaciones")) || [];
+
+const getOperacion = (id) =>
+  getOperaciones().find(operacion => operacion.id == id);
+
 const setOperaciones = (operaciones) =>
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
+
 const addOperacion = (operacion) => {
+  operacion.id = crypto.randomUUID();
   setOperaciones([...getOperaciones(), operacion]);
 };
 // funcion para actualizar las nuevas categorias al selec
 const mostrarCategoriasEnSelect = () => {
   const categorias = getCategorias();
-  const selectCategoria = $("[name='categoria']"); 
-  
-  selectCategoria.innerHTML = '';
+  const selectCategoria = $("[name='categoria']");
 
-  categorias.forEach(categoria => {
+  selectCategoria.innerHTML = "";
+
+  categorias.forEach((categoria) => {
     const option = document.createElement("option");
     option.value = categoria.id;
     option.textContent = categoria.nombre;
@@ -80,9 +88,7 @@ const mostrarCategorias = () => {
   mostrarCategoriasEnSelect(); //se actualiza categorias
   let aux = "";
 
-
   for (const categoria of categorias) {
-    
     aux += ` 
      <div id="${categoria.id}" class="flex flex-row pr-4 pl-4 m-auto ">
       <span>${categoria.nombre}</span>
@@ -92,25 +98,22 @@ const mostrarCategorias = () => {
       </div>
     </div>`;
   }
-     listadoDeCategoriasVista.innerHTML = aux;
-     
+  listadoDeCategoriasVista.innerHTML = aux;
 
-     const arrayBotonEliminar = $$(".botonEliminar");
-     const arrayBotonEditar = $$(".botonEditar");
-     
-     arrayBotonEliminar.forEach((button) => {
-         button.addEventListener("click", (e) => {
-           quitarCategoria(e.target.dataset.id); 
-          
-         });
-      });
-     arrayBotonEditar.forEach((button) => {
-       button.addEventListener("click", (e) => {
-        editarCategoria(e.target.dataset.id); 
-        $inputEditarCategorias.classList.toglee = "hidden"
-        
-        });
-      });
+  const arrayBotonEliminar = $$(".botonEliminar");
+  const arrayBotonEditar = $$(".botonEditar");
+
+  arrayBotonEliminar.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      quitarCategoria(e.target.dataset.id);
+    });
+  });
+  arrayBotonEditar.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      editarCategoria(e.target.dataset.id);
+      $inputEditarCategorias.classList.toglee = "hidden";
+    });
+  });
 };
 
 function quitarCategoria(id) {
@@ -118,7 +121,6 @@ function quitarCategoria(id) {
   categorias = categorias.filter((categoria) => categoria.id !== id);
   setCategorias(categorias);
   mostrarCategorias();
-
 }
 function editarCategoria(id) {
   let categorias = getCategorias();
@@ -136,7 +138,7 @@ function editarCategoria(id) {
 
     botonEditarCategoria.addEventListener("click", () => {
       const nuevoNombre = inputCategoriaNombre.value;
-    
+
       if (nuevoNombre) {
         categoria.nombre = nuevoNombre;
         setCategorias(categorias);
@@ -149,11 +151,9 @@ function editarCategoria(id) {
   }
 }
 
-
-
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
-  const categorias = getCategorias(); 
+  const categorias = getCategorias();
 
   let contenidoHTML = `
     <thead>
@@ -171,24 +171,38 @@ const mostrarOperaciones = () => {
   // Iteramos sobre las operaciones
   for (const operacion of operaciones) {
     // Encontramos la categoría correspondiente a esta operación
-    const categoria = categorias.find(categoriaParametro => categoriaParametro.id === operacion.categoria);
-    const nombreCategoria = categoria ? categoria.nombre : "Categoría no encontrada";
+    const categoria = categorias.find(
+      (categoriaParametro) => categoriaParametro.id === operacion.categoria
+    );
+    const nombreCategoria = categoria
+      ? categoria.nombre
+      : "Categoría no encontrada";
 
     contenidoHTML += `
-            <tr class="text-sm border-0">
+            <tr class="text-sm ">
         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
         <td class="text-left px-4 py-3">${nombreCategoria}</td> 
         <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
         <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
         <td class="text-left px-4 py-3">${operacion.fecha}</td>
         <td class="text-left px-4 py-3">
-          <button onclick="modificarOperacion(${operacion.id})" class="text-sky-600">Modificar</button>
+          <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
+          <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button
         </td>
       </tr>`;
   }
 
   contenidoHTML += `</tbody>`;
   $contenidoOPeraciones.innerHTML = contenidoHTML;
+
+  const botonesEditar = $$(".botonEditar");
+  for (const botonEditar of botonesEditar) {
+    botonEditar.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      console.log(getOperacion(id));
+      
+    });
+  }
 };
 
 // function editarOperacion(id) {
@@ -214,10 +228,6 @@ const mostrarOperaciones = () => {
 //     mostrarCategoriasEnSelect(); // Asegúrate de que las categorías estén actualizadas en el select
 //   }
 // }
-
-
-
-
 
 // Eventos de navegación
 $buttonBalance.addEventListener("click", () => {
@@ -251,7 +261,6 @@ $botonAñadirCategoria.addEventListener("click", () => {
   $añadirCategoria.value = "";
   addCategoria(categoria);
   mostrarCategorias();
-  serNuevaCategoria();
 });
 
 // Evento de Operación
