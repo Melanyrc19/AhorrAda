@@ -191,6 +191,32 @@ const mostrarOperaciones = () => {
   $contenidoOPeraciones.innerHTML = contenidoHTML;
 };
 
+// function editarOperacion(id) {
+//   // Buscar la operación en el localStorage por ID
+//   const operaciones = getOperaciones();
+//   const operacion = operaciones.find(operacion => operacion.id === id);
+
+//   if (operacion) {
+//     // Rellenar los campos con los valores actuales
+//     $("#editarDescripcion").value = operacion.descripcion;
+//     $("#editarMonto").value = operacion.monto;
+//     $("#editarTipo").value = operacion.tipo;
+//     $("#editarCategoria").value = operacion.categoria;
+//     $("#editarFecha").value = operacion.fecha;
+
+//     // Mostrar el formulario de edición y ocultar el formulario de operaciones
+//     $sectionOperacion.classList.add("hidden");
+//     $sectionBalance.classList.add("hidden");
+//     $sectionCategoria.classList.add("hidden");
+//     $("#editarOperacion").classList.remove("hidden");
+
+//     // Actualizar la lista de categorías en el select de edición
+//     mostrarCategoriasEnSelect(); // Asegúrate de que las categorías estén actualizadas en el select
+//   }
+// }
+
+
+
 
 
 // Eventos de navegación
