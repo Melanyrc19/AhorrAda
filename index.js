@@ -175,14 +175,14 @@ const mostrarOperaciones = () => {
     const nombreCategoria = categoria ? categoria.nombre : "Categoría no encontrada";
 
     contenidoHTML += `
-            <tr class="text-sm">
+            <tr class="text-sm border-0">
         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
         <td class="text-left px-4 py-3">${nombreCategoria}</td> 
         <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
         <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
         <td class="text-left px-4 py-3">${operacion.fecha}</td>
         <td class="text-left px-4 py-3">
-          <button onclick="modificarOperacion(${operacion.id})" class="">Modificar</button>
+          <button onclick="modificarOperacion(${operacion.id})" class="text-sky-600">Modificar</button>
         </td>
       </tr>`;
   }
