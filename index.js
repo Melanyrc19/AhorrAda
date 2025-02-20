@@ -252,7 +252,6 @@ $botonAñadirCategoria.addEventListener("click", () => {
   addCategoria(categoria);
   mostrarCategorias();
   serNuevaCategoria();
-
 });
 
 // Evento de Operación
