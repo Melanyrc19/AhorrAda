@@ -96,6 +96,13 @@ const mostrarOperaciones = () => {
 };
 
 // Eventos de navegación
+
+$menuHamburguesa.addEventListener("click",() => {
+$botonesMenu.classList.toggle("block");
+$botonesMenu.classList.toggle("flex");
+$botonesMenu.classList.toggle("flex-colum");
+})
+
 $buttonBalance.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
   $sectionOperacion.classList.add("hidden");
