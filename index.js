@@ -17,6 +17,7 @@ const $buttonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
+const btnGuardarEdit = $("#btnGuardarEdit")
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -195,6 +196,8 @@ const mostrarOperaciones = () => {
 
   contenidoHTML += `</tbody>`;
   $contenidoOperaciones.innerHTML = contenidoHTML;
+  
+
 
   const botonesEditar = $$(".botonEditar");
   for (const botonEditar of botonesEditar) {
@@ -202,13 +205,26 @@ const mostrarOperaciones = () => {
       const id = e.target.dataset.id;
       const operacion = getOperacion(id)
       $sectionBalance.classList.add("hidden")
+
       const categorias = getCategorias();
       let aux = "";
       for (const categoria of categorias) {
         aux += `<option value= "${categoria.id}" ${categoria.id ===operaciones.categoria ? "selected" : ""} > ${categoria.nombre} </option>`
       }
+
+      // const actualizarOperacionEdit = () =>{
+      //   const operacion = getOperacion ();
+
+      // }
+
+      btnGuardarEdit.addEventListener ("click",() =>{
+        $seccionEditarOperacion.classList.add("hidden")
+        $sectionBalance.classList.remove("hidden")
+        addOperacion( editarForm);
+        
+       })
       
-      let editarform = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
+      let editarForm = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
                 <div class="text-lg font-semibold px-4 py-2">Editar Operación</div>
                 <div class="p-4">
                   <div class="mb-8">
@@ -222,8 +238,8 @@ const mostrarOperaciones = () => {
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Tipo</label>
                     <select id="editarTipo" class="w-full mt-1 p-2 border rounded-md">
-                      <option>Ganancias</option>
-                      <option>Gastos</option>
+                      <option value="Ganancias" ${operacion.tipo === "Ganancias" ? "selected":""}>Ganancias</option>
+                      <option value="Gastos" ${operacion.tipo === "Gastos" ? "selected":""}>Gastos</option>
                     </select>
                   </div>
                   <div class="mb-3 mb-8">
@@ -237,7 +253,7 @@ const mostrarOperaciones = () => {
                     <input id="editarFecha" value="${operacion.fecha}" type="date" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-                    <button id="btnGuardarOperacion" type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+                    <button id="btnGuardarEdit " type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
                       Guardar Cambios
                     </button>
                     <button id="btnCancelarEdicion" type="button" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-100">
@@ -247,10 +263,17 @@ const mostrarOperaciones = () => {
                 </div>
               </form>`
               $seccionEditarOperacion.innerHTML = editarform;
+              setOperacion();
     });
     
   }
 };
+
+
+
+
+
+
 
 // function editarOperacion(id) {
 //   // Buscar la operación en el localStorage por ID
