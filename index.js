@@ -7,6 +7,7 @@ function $$(selector) {
   return document.querySelectorAll(selector);
 }
 
+
 // Variables
 // Menu
 const $menuHamburguesa = $("#menuHamburguesa");
@@ -19,6 +20,13 @@ const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
 const btnGuardarEdit = $("#btnGuardarEdit")
 const btnOcultarFiltro = $("#btnOcultarFiltro")
+
+
+const $btnBalanceMenuHamburguesa = $("#botonBalanceMenuHamburguesa");
+const $btnReportesMenuHamburguesa = $("#botonReporteMenuHamburguesa");
+const $btnCategoriaMenuHamburguesa = $("#botonCategoriasMenuHamburguesa")
+
+
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -36,6 +44,7 @@ const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
 const $seccionFiltro = $("#seccionFiltro");
 const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
+const $menuDesplegadoHamburguesa = $("#menuDesplegadoHamburguesa");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -163,11 +172,11 @@ const mostrarOperaciones = () => {
   let contenidoHTML = `
     <thead>
       <tr>
-        <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
+        <th class="text-left font-bold text-sm py-3 px-4 ">Descripción</th>
         <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
-        <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Tipo</th>
+        <th class="hidden lg:block text-left font-bold text-sm py-3 px-4">Tipo</th>
         <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Fecha</th>
+        <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Fecha</th>
         <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
       </tr>
     </thead>
@@ -187,9 +196,9 @@ const mostrarOperaciones = () => {
             <tr class="text-sm ">
         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
         <td class="text-left px-4 py-3">${nombreCategoria}</td> 
-        <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
+        <td class="hidden lg:block text-left px-4 py-3">${operacion.tipo}</td>
         <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
-        <td class="text-left px-4 py-3">${operacion.fecha}</td>
+        <td class="hidden md:block text-left px-4 py-3">${operacion.fecha}</td>
         <td class="text-left px-4 py-3">
           <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
           <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button
@@ -223,7 +232,7 @@ const mostrarOperaciones = () => {
       btnGuardarEdit.addEventListener ("click",() =>{
         $seccionEditarOperacion.classList.add("hidden")
         $sectionBalance.classList.remove("hidden")
-        addOperacion( editarForm);
+        addOperacion(editarForm);
         
        })
       
@@ -308,6 +317,15 @@ $buttonBalance.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
 });
+$btnBalanceMenuHamburguesa.addEventListener("click", () => {
+  $sectionBalance.classList.remove("hidden");
+  $sectionOperacion.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+});
+
+// const $btnReportesMenuHamburguesa = $("#botonReporteMenuHamburguesa");
+
+
 
 $botonAgregar.addEventListener("click", () => {
   $sectionOperacion.classList.remove("hidden");
@@ -327,6 +345,12 @@ $botonCategorias.addEventListener("click", () => {
   $sectionCategoria.classList.remove("hidden");
   $inputEditarCategorias.classList.add("hidden");
 });
+$btnCategoriaMenuHamburguesa.addEventListener("click", () => {
+  $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.remove("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+});
 
 btnOcultarFiltro.addEventListener("click", () => {
   $seccionFiltro.classList.toggle("h-[80px]");
@@ -334,6 +358,13 @@ btnOcultarFiltro.addEventListener("click", () => {
   $contenidoSeccionFiltro.classList.toggle("hidden") 
 
 });
+
+
+
+$menuHamburguesa.addEventListener("click", () => {
+  $menuDesplegadoHamburguesa.classList.toggle("hidden");
+});
+
 
 // Eventos de Categorías
 $botonAñadirCategoria.addEventListener("click", () => {

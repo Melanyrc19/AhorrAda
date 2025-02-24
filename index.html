@@ -21,12 +21,26 @@
         <button id="botonReportes" class="m-5">Reportes</button>
       </div>
       <div class="md:hidden">
-        <button>
-          <i id="MenuHamburguesa" class="text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>   
+        <button id="menuHamburguesa" class="md:hidden">
+          <i class="text-white p-6 fa-solid fa-bars menu-profile "></i>   
         </button>
-       
       </div>
+      
     </header>
+    <section id="menuDesplegadoHamburguesa" class="hidden container mx-auto flex flex-col">
+      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8 py-2">
+        <button id="botonBalanceMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+         Balance
+        </button>
+        <button id="botonCategoriasMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Categorías
+        </button>
+        <button id="botonReportesMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Reportes
+        </button>
+      </div>
+    </section>
+    
     <main>
       <section
         id="balance"
