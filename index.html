@@ -27,15 +27,15 @@
       </div>
       
     </header>
-    <section id="menuDesplegadoHamburguesa" class="hidden container mx-auto flex flex-col">
-      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8 py-2">
-        <button id="botonBalanceMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+    <section id="menuDesplegadoHamburguesa" class="hidden md:hidden container mx-auto flex flex-col">
+      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8">
+        <button id="botonBalanceMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
          Balance
         </button>
-        <button id="botonCategoriasMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+        <button id="botonCategoriasMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
           Categorías
         </button>
-        <button id="botonReportesMenuHamburguesa" class="text-xl py-2 px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+        <button id="botonReportesMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
           Reportes
         </button>
       </div>
@@ -69,38 +69,41 @@
 
             <div id="contenidoSeccionFiltro" class="p-4">
               <div class="mb-8">
-                <label class="block text-sm font-medium text-gray-700"
+                <label for="filtroTipo" class="block text-sm font-medium text-gray-700"
                   >Tipo</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
-                  <option>Todos</option>
-                  <option>Gastos</option>
-                  <option>Ganancias</option>
+                <select id="filtroTipo" class="w-full mt-1 p-2 border rounded-md">
+                  <option value="">Todos</option>
+                  <option value="gastos">Gastos</option>
+                  <option value="ganancias">Ganancias</option>
                 </select>
               </div>
               <div class="mb-3 mb-8">
-                <label class="block text-sm font-medium text-gray-700"
+                <label for="filtroCategoria" class="block text-sm font-medium text-gray-700"
                   >Categoría</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
-                  <option>Todas</option>
-                  <option>Categoría 1</option>
-                  <option>Categoría 2</option>
+                <select id="filtroCategoria" class="w-full mt-1 p-2 border rounded-md">
+                  <option value="todas">Todas</option>
+                  
                 </select>
               </div>
               <div class="mb-3 mb-8">
-                <label class="block text-sm font-medium text-gray-700"
+                <label for="filtroFecha" class="block text-sm font-medium text-gray-700"
                   >Desde</label
                 >
-                <input type="date" class="w-full mt-1 p-2 border rounded-md" />
+                <input id="filtroFecha" type="date" class="w-full mt-1 p-2 border rounded-md" />
               </div>
               <div class="mb-3 mb-8">
-                <label class="block text-sm font-medium text-gray-700"
+                <label for="filtroOrden" class="block text-sm font-medium text-gray-700"
                   >Ordenar por</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
-                  <option>Más reciente</option>
-                  <option>Más antiguo</option>
+                <select id="filtroOrden" class="w-full mt-1 p-2 border rounded-md">
+                  <option value="desc">Más reciente</option>
+                  <option value="asc">Menos reciente</option>
+                  <option value="mayorMonto">Mayor monto</option>
+                  <option value="menorMonto">Menor Monto</option>
+                  <option value="az">A/Z<option>
+                    <option value="za">Z/A</option>
                 </select>
               </div>
             </div>
