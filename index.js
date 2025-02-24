@@ -18,6 +18,7 @@ const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
 const btnGuardarEdit = $("#btnGuardarEdit")
+const btnOcultarFiltro = $("#btnOcultarFiltro")
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -33,6 +34,8 @@ const $sectionOperacion = $("#operacion");
 const $sectionCategoria = $("#categorias");
 const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
+const $seccionFiltro = $("#seccionFiltro");
+const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -323,6 +326,13 @@ $botonCategorias.addEventListener("click", () => {
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
   $inputEditarCategorias.classList.add("hidden");
+});
+
+btnOcultarFiltro.addEventListener("click", () => {
+  $seccionFiltro.classList.toggle("h-[80px]");
+  $seccionFiltro.classList.toggle("py-6");
+  $contenidoSeccionFiltro.classList.toggle("hidden") 
+
 });
 
 // Eventos de Categorías
