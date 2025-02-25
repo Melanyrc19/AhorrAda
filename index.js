@@ -22,6 +22,7 @@ const $botonOPeracion = $("#btnOperacion");
 const btnGuardarEdit = $("#btnGuardarEdit")
 const btnOcultarFiltro = $("#btnOcultarFiltro")
 const $botonReportes = $("#botonReportes");
+const $botonCerrarMenu =$("#botonCerrarMenu");
 
 
 
@@ -327,6 +328,9 @@ $btnBalanceMenuHamburguesa.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
   $sectionReporte.classList.add("hidden");
+});
+$botonCerrarMenu.addEventListener("click", () => {
+  $menuDesplegadoHamburguesa.classList.add("hidden");
 });
 
 // const $btnReportesMenuHamburguesa = $("#botonReporteMenuHamburguesa");
