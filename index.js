@@ -340,7 +340,7 @@ $botonAgregar.addEventListener("click", () => {
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
   $operacionesVacia.classList.add("hidden");
-  $contenidoOperaciones.classList.add("hidden");
+  $contenidoOperaciones.classList.remove("hidden");
 });
 
 $botonOPeracion.addEventListener("click", () => {
