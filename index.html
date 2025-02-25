@@ -115,7 +115,7 @@
         </div>
         <!-- seccion de operaciones -->
         <div class="w-full sm:w-2/3">
-          <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
+          <div class="rounded-lg shadow-lg bg-white my-6 mx-8 md:min-h-[603px]">
             <div class="flex items-center justify-between px-4 py-2">
               <h3>Operaciones</h3>
               <button
@@ -124,12 +124,20 @@
             >
               Nueva Operacion
             </button>
+            
             </div>
-            <div id="contenidoOperaciones" class=" w-5/6 m-auto ">
+            <div id="contenidoOperaciones" class=" w-5/6 m-auto absolute ">
             </div>
-
+            <div id="operacionesVacia" class="relative top-[300px] flex flex-col justify-center items-center">
+              <img src="../tpAhorrAdas/imegenes/9368527.png" alt="">
+    
+              <h3 class="text-2xl py-6 font-bold text-gray-700">Sin resultados</h3>
+              <p class="text-gray-700"> Cambia los filtros o agrega operaciones</p>
+    
+            </div>
          </div>
-          
+     
+
            
             </section>
           
@@ -242,7 +250,7 @@
       </section>
 
 
-      <section id="sectionReporte" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10">
+      <section id="sectionReporte" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10 hidden">
         <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2>
       
         <div class="px-4">

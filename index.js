@@ -50,6 +50,7 @@ const $seccionFiltro = $("#seccionFiltro");
 const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
 const $menuDesplegadoHamburguesa = $("#menuDesplegadoHamburguesa");
 const $sectionReporte = $("#sectionReporte");
+const $operacionesVacia = $("#operacionesVacia");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -211,6 +212,12 @@ const mostrarOperaciones = () => {
 contenidoHTML += ``;
 $contenidoOperaciones.innerHTML = contenidoHTML;
 
+if (contenidoHTML) {
+  $operacionesVacia.classList.add("hidden"); // Oculta el mensaje si hay contenido
+} else {
+  $operacionesVacia.classList.remove("hidden"); // Muestra el mensaje si no hay contenido
+}
+
 
   const botonesEditar = $$(".botonEditar");
   for (const botonEditar of botonesEditar) {
@@ -337,6 +344,7 @@ $botonAgregar.addEventListener("click", () => {
   $sectionOperacion.classList.remove("hidden");
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
+  $operacionesVacia.classList.add("hidden");
 });
 
 $botonOPeracion.addEventListener("click", () => {
