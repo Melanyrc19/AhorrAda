@@ -212,11 +212,6 @@ const mostrarOperaciones = () => {
 contenidoHTML += ``;
 $contenidoOperaciones.innerHTML = contenidoHTML;
 
-if (contenidoHTML) {
-  $operacionesVacia.classList.add("hidden"); // Oculta el mensaje si hay contenido
-} else {
-  $operacionesVacia.classList.remove("hidden"); // Muestra el mensaje si no hay contenido
-}
 
 
   const botonesEditar = $$(".botonEditar");
@@ -345,6 +340,7 @@ $botonAgregar.addEventListener("click", () => {
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
   $operacionesVacia.classList.add("hidden");
+  $contenidoOperaciones.classList.add("hidden");
 });
 
 $botonOPeracion.addEventListener("click", () => {
