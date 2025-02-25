@@ -27,8 +27,12 @@
       </div>
       
     </header>
-    <section id="menuDesplegadoHamburguesa" class="hidden md:hidden container mx-auto flex flex-col">
-      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8">
+    <section id="menuDesplegadoHamburguesa" class="hidden md:hidden container mx-auto flex flex-col ">
+      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8 relative p-4">
+          <button class="absolute top-0 right-[0px] p-2 bg-blue-200 rounded-sm text-md text-gray-700 hover:bg-blue-300" id="botonCerrarMenu">
+            X
+          </button>
+       
         <button id="botonBalanceMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
          Balance
         </button>
@@ -238,7 +242,7 @@
       </section>
 
 
-      <section id="sectionReportes" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10">
+      <section id="sectionReporte" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10">
         <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2>
       
         <div class="px-4">

@@ -21,10 +21,12 @@ const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
 const btnGuardarEdit = $("#btnGuardarEdit")
 const btnOcultarFiltro = $("#btnOcultarFiltro")
+const $botonReportes = $("#botonReportes");
+
 
 
 const $btnBalanceMenuHamburguesa = $("#botonBalanceMenuHamburguesa");
-const $btnReportesMenuHamburguesa = $("#botonReporteMenuHamburguesa");
+const $btnReportesMenuHamburguesa = $("#botonReportesMenuHamburguesa");
 const $btnCategoriaMenuHamburguesa = $("#botonCategoriasMenuHamburguesa")
 
 
@@ -46,6 +48,7 @@ const $seccionEditarOperacion = $("#seccionEditarOperacion");
 const $seccionFiltro = $("#seccionFiltro");
 const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
 const $menuDesplegadoHamburguesa = $("#menuDesplegadoHamburguesa");
+const $sectionReporte = $("#sectionReporte");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -316,12 +319,14 @@ const mostrarOperaciones = () => {
 $buttonBalance.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
   $sectionOperacion.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
 });
 $btnBalanceMenuHamburguesa.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
   $sectionOperacion.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
 });
 
 // const $btnReportesMenuHamburguesa = $("#botonReporteMenuHamburguesa");
@@ -338,6 +343,7 @@ $botonOPeracion.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionBalance.classList.remove("hidden");
   $sectionCategoria.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
 });
 
 $botonCategorias.addEventListener("click", () => {
@@ -345,11 +351,27 @@ $botonCategorias.addEventListener("click", () => {
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
   $inputEditarCategorias.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
 });
 $btnCategoriaMenuHamburguesa.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.remove("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
+});
+$botonReportes.addEventListener("click", () => {
+  $sectionReporte.classList.remove("hidden");
+   $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+});
+$btnReportesMenuHamburguesa.addEventListener("click", () => {
+  $sectionReporte.classList.remove("hidden");
+   $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
   $inputEditarCategorias.classList.add("hidden");
 });
 
