@@ -175,17 +175,14 @@ const mostrarOperaciones = () => {
   const categorias = getCategorias();
 
   let contenidoHTML = `
-    <thead>
-      <tr>
-        <th class="text-left font-bold text-sm py-3 px-4 ">Descripción</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
-        <th class="hidden lg:block text-left font-bold text-sm py-3 px-4">Tipo</th>
-        <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
-        <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Fecha</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
-      </tr>
-    </thead>
-    <tbody>`;
+  <div class="hidden lg:flex justify-between font-bold text-sm m-2">
+    <div class="lg:w-1/6 text-left">Descripción</div>
+    <div class="lg:w-1/6 text-left">Categoría</div>
+    <div class="hidden lg:w-1/6  lg:flex flex-1 text-left">Tipo</div>
+    <div class="lg:w-1/6 ">Monto</div>
+    <div class="hidden lg:w-1/6 md:flex flex-1 text-left">Fecha</div>
+    <div class="lg:w-1/6 text-left">Acción</div>
+  </div>`;
 
   // Iteramos sobre las operaciones
   for (const operacion of operaciones) {
@@ -197,23 +194,22 @@ const mostrarOperaciones = () => {
       ? categoria.nombre
       : "Categoría no encontrada";
 
-    contenidoHTML += `
-            <tr class="text-sm ">
-        <td class="text-left px-4 py-3">${operacion.descripcion}</td>
-        <td class="text-left px-4 py-3">${nombreCategoria}</td> 
-        <td class="hidden lg:block text-left px-4 py-3">${operacion.tipo}</td>
-        <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
-        <td class="hidden md:block text-left px-4 py-3">${operacion.fecha}</td>
-        <td class="text-left px-4 py-3">
+      contenidoHTML += `
+      <div class="flex flex-wrap justify-between text-sm p-4 border-t">
+        <div class="flex-1 lg:w-1/6  text-left">${operacion.descripcion}</div>
+        <div class="sm:w-2/3 lg:w-1/6 lg:flex-1 text-left">${nombreCategoria}</div>
+        <div class="hidden lg:w-1/6 lg:flex flex-1 text-left">${operacion.tipo}</div>
+        <div class="sm:w-1/3 lg:w-1/6  lg:flex-1 text-left font-semibold">${operacion.monto}</div>
+        <div class="hidden lg:w-1/6  lg:flex text-left">${operacion.fecha}</div>
+        <div class="sm:w-2/3  lg:w-1/6  text-left">
           <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
-          <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button
-        </td>
-      </tr>`;
+          <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button>
+        </div>
+      </div>`;
   }
 
-  contenidoHTML += `</tbody>`;
-  $contenidoOperaciones.innerHTML = contenidoHTML;
-  
+contenidoHTML += ``;
+$contenidoOperaciones.innerHTML = contenidoHTML;
 
 
   const botonesEditar = $$(".botonEditar");
