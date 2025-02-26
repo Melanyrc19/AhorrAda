@@ -32,6 +32,7 @@ const $sectionOperacion = $("#operacion");
 const $sectionCategoria = $("#categorias");
 const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
+const $seccionReportes = $("#reportes");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -176,8 +177,8 @@ function editarCategoria(id) {
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
   const categorias = getCategorias();
-  $seccionEditarOperacion.innerHTML = ""
-
+  $seccionEditarOperacion.innerHTML = "";
+  
   let contenidoHTML = `
     <thead>
       <tr>
@@ -232,7 +233,7 @@ const mostrarOperaciones = () => {
     botonEditar.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
       const operacion = getOperacion(id);
-      $sectionBalance.classList.add("hidden");
+      ocultarTodoMenos('seccionEditarOperacion');
 
       const categorias = getCategorias();
       let aux = "";
@@ -304,41 +305,26 @@ const mostrarOperaciones = () => {
         };
 
         updateOperacion(editOperacion);
-        mostrarOperaciones();
-        $sectionBalance.classList.remove("hidden");
-        $sectionOperacion.classList.add("hidden");
-        $sectionCategoria.classList.add("hidden");
+        mostrarBalance();
       });
     });
   }
 };
-mostrarOperaciones();
-
 // Eventos de navegación
 $botonBalance.addEventListener("click", () => {
-  $sectionBalance.classList.remove("hidden");
-  $sectionOperacion.classList.add("hidden");
-  $sectionCategoria.classList.add("hidden");
-  mostrarOperaciones()
+  mostrarBalance()
 });
 
 $botonAgregar.addEventListener("click", () => {
-  $sectionOperacion.classList.remove("hidden");
-  $sectionBalance.classList.add("hidden");
-  $sectionCategoria.classList.add("hidden");
+  ocultarTodoMenos("operacion")
 });
 
 $botonOperacion.addEventListener("click", () => {
-  $sectionOperacion.classList.add("hidden");
-  $sectionBalance.classList.remove("hidden");
-  $sectionCategoria.classList.add("hidden");
+  mostrarBalance()
 });
 
 $botonCategorias.addEventListener("click", () => {
-  $sectionOperacion.classList.add("hidden");
-  $sectionBalance.classList.add("hidden");
-  $sectionCategoria.classList.remove("hidden");
-  $inputEditarCategorias.classList.add("hidden");
+  ocultarTodoMenos("categorias")
 });
 
 // Eventos de Categorías
@@ -363,6 +349,50 @@ $formOperacion.addEventListener("submit", (event) => {
   mostrarOperaciones();
 });
 
+
+
+const mostrarBalance = () => {
+  ocultarTodoMenos("balance");
+  mostrarCategorias();
+  mostrarOperaciones();
+};
+
+const ocultarTodoMenos = (id) => {
+  const sections = [
+    {
+      id: "balance",
+      dom: $sectionBalance,
+    },
+    {
+      id: "operacion",
+      dom: $sectionOperacion,
+    },
+    {
+      id: "categorias",
+      dom: $sectionCategoria,
+    },
+    {
+      id: "seccionEditarOperacion",
+      dom: $seccionEditarOperacion,
+    },
+    {
+      id: "inputEditarCategorias",
+      dom: $inputEditarCategorias,
+    },
+    {
+      id: "reportes",
+      dom: $seccionReportes,
+    },
+  ];
+
+  for (const section of sections) {
+    if(section.id == id){
+      section.dom.classList.remove("hidden")
+    }else{
+      section.dom.classList.add("hidden")
+    }
+  }
+};
+
 // Inicialización
-mostrarCategorias();
-mostrarOperaciones();
+mostrarBalance()
