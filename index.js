@@ -131,7 +131,7 @@ const mostrarCategorias = () => {
   arrayBotonEditar.forEach((button) => {
     button.addEventListener("click", (e) => {
       editarCategoria(e.target.dataset.id);
-      $inputEditarCategorias.classList.toglee = "hidden";
+      $inputEditarCategorias.classList.toggle = ("hidden");
     });
   });
 };
@@ -157,7 +157,7 @@ function editarCategoria(id) {
     const botonEditarCategoria = $("#botonEditarCategoriaInput");
 
     botonEditarCategoria.addEventListener("click", () => {
-      const nuevoNombre = inputCategoriaNombre.value;
+      const nuevoNomsectionOpbre = inputCategoriaNombre.value;
 
       if (nuevoNombre) {
         categoria.nombre = nuevoNombre;
@@ -195,6 +195,8 @@ const mostrarOperaciones = () => {
       ? categoria.nombre
       : "Categoría no encontrada";
 
+   
+
       contenidoHTML += `
       <div class="flex flex-wrap justify-between text-sm p-4 border-t">
         <div class="flex-1 lg:w-1/6  text-left">${operacion.descripcion}</div>
@@ -211,6 +213,7 @@ const mostrarOperaciones = () => {
 
 contenidoHTML += ``;
 $contenidoOperaciones.innerHTML = contenidoHTML;
+
 
 
 
@@ -277,42 +280,12 @@ $contenidoOperaciones.innerHTML = contenidoHTML;
                   </div>
                 </div>
               </form>`
-              $seccionEditarOperacion.innerHTML = editarform;
+              $seccionEditarOperacion.innerHTML = editarForm;
               setOperacion();
     });
     
   }
 };
-
-
-
-
-
-
-
-// function editarOperacion(id) {
-//   // Buscar la operación en el localStorage por ID
-//   const operaciones = getOperaciones();
-//   const operacion = operaciones.find(operacion => operacion.id === id);
-
-//   if (operacion) {
-//     // Rellenar los campos con los valores actuales
-//     $("#editarDescripcion").value = operacion.descripcion;
-//     $("#editarMonto").value = operacion.monto;
-//     $("#editarTipo").value = operacion.tipo;
-//     $("#editarCategoria").value = operacion.categoria;
-//     $("#editarFecha").value = operacion.fecha;
-
-//     // Mostrar el formulario de edición y ocultar el formulario de operaciones
-//     $sectionOperacion.classList.add("hidden");
-//     $sectionBalance.classList.add("hidden");
-//     $sectionCategoria.classList.add("hidden");
-//     $("#editarOperacion").classList.remove("hidden");
-
-//     // Actualizar la lista de categorías en el select de edición
-//     mostrarCategoriasEnSelect(); // Asegúrate de que las categorías estén actualizadas en el select
-//   }
-// }
 
 // Eventos de navegación
 $buttonBalance.addEventListener("click", () => {
@@ -386,8 +359,6 @@ btnOcultarFiltro.addEventListener("click", () => {
 
 });
 
-
-
 $menuHamburguesa.addEventListener("click", () => {
   $menuDesplegadoHamburguesa.classList.toggle("hidden");
 });
@@ -419,25 +390,13 @@ $formOperacion.addEventListener("submit", (event) => {
 
 
 
-
+// me trabe
 
 // Obtener los elementos del filtro
 const $filtroTipo = $("#filtroTipo");
 const $filtroCategoria = $("#filtroCategoria");
 const $filtroFecha = $("#filtroFecha");
 const $filtroOrden = $("#filtroOrden");
-
-// Mostrar categorías en el filtro
-const mostrarCategoriasEnFiltro = () => {
-  const categorias = [...getCategorias(), mostrarCategorias];
-  $filtroCategoria.innerHTML = `<option value="">Todas</option>`;
-  categorias.forEach(categoria => {
-    const option = document.createElement("option");
-    option.value = categoria.id;
-    option.textContent = categoria.nombre;
-    $filtroCategoria.appendChild(option);
-  });
-};
 
 // Filtrar operaciones
 const filtrarOperaciones = () => {
@@ -448,7 +407,86 @@ const filtrarOperaciones = () => {
 
   const operaciones = getOperaciones();
   const categorias = getCategorias();
-}
+
+  // Filtrar operaciones según los criterios seleccionados
+  const operacionesFiltradas = operaciones.filter(operacion => {
+    const tipoValido = tipoSeleccionado ? operacion.tipo.toLowerCase() === tipoSeleccionado : true;
+    const categoriaValida = categoriaSeleccionada ? operacion.categoria === categoriaSeleccionada : true;
+    const fechaValida = fechaSeleccionada ? new Date(operacion.fecha) >= new Date(fechaSeleccionada) : true;
+    return tipoValido && categoriaValida && fechaValida;
+  });
+
+const operacionOrdenada = operacionesFiltradas.sort((a, b) => {
+  switch (ordenarPor) {
+    case 'desc':
+      return new Date(b.fecha) - new Date(a.fecha);
+
+    case 'asc':
+      return new Date(a.fecha) - new Date(b.fecha);
+
+    case 'mayorMonto':
+      return b.monto - a.monto;
+
+    case 'menorMonto':
+      return a.monto - b.monto;
+
+    case 'az':
+      return a.descripcion.localeCompare(b.descripcion);
+
+    case 'za':
+      return b.descripcion.localeCompare(a.descripcion);
+     default:
+    return 0;
+  }
+
+
+});
+mostrarOperaciones(operacionOrdenada); };
+
+
+$filtroTipo.addEventListener('change', filtrarOperaciones);
+$filtroCategoria.addEventListener('change', filtrarOperaciones);
+$filtroFecha.addEventListener('change', filtrarOperaciones);
+$filtroOrden.addEventListener('change', filtrarOperaciones);
+
+// Inicializar la visualización de las operaciones filtradas
+mostrarOperaciones(getOperaciones());
+
+const cargarCategoriasFiltro = () => {
+  const categorias = getCategorias();
+  const filtroCategoria = document.querySelector("#filtroCategoria");
+  filtroCategoria.innerHTML = "";  // Limpia las opciones existentes
+
+  categorias.forEach(categoria => {
+    const option = document.createElement("option");
+    option.value = categoria.id;
+    option.textContent = categoria.nombre;
+    filtroCategoria.appendChild(option);
+  });
+};  
+
+// Llama a cargarCategoriasFiltro al cargar la página
+window.onload = cargarCategoriasFiltro;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Filtrar operaciones por tipo, categoría y fecha
 //   const operacionesFiltradas = operaciones.filter(operacion => {
@@ -549,5 +587,3 @@ const filtrarOperaciones = () => {
 
 
 // Inicialización
-mostrarCategorias();
-mostrarOperaciones();
