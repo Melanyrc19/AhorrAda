@@ -17,7 +17,6 @@ const $buttonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOPeracion = $("#btnOperacion");
-const btnGuardarEdit = $("#btnGuardarEdit")
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -36,8 +35,12 @@ const $seccionEditarOperacion = $("#seccionEditarOperacion");
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
-const getCategorias = () =>
-  JSON.parse(localStorage.getItem("categorias")) || [
+const getCategorias = () => {
+  const categorias = JSON.parse(localStorage.getItem("categorias"));
+  if (categorias) {
+    return categorias;
+  }
+  const categoriasDefault = [
     { id: crypto.randomUUID(), nombre: "Comida" },
     { id: crypto.randomUUID(), nombre: "Servicio" },
     { id: crypto.randomUUID(), nombre: "Salud" },
@@ -45,6 +48,9 @@ const getCategorias = () =>
     { id: crypto.randomUUID(), nombre: "Trabajo" },
     { id: crypto.randomUUID(), nombre: "Transporte" },
   ];
+  setCategorias(categoriasDefault);
+  return categoriasDefault;
+};
 
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
@@ -54,14 +60,14 @@ const addCategoria = (categoriaNombre) => {
 };
 
 // Funciones de Operaciones
-const clearOp = () =>{
-  localStorage.removeItem("operaciones")
-}
+// const clearOp = () =>{
+//   localStorage.removeItem("operaciones")
+// }
 const getOperaciones = () =>
   JSON.parse(localStorage.getItem("operaciones")) || [];
 
 const getOperacion = (id) =>
-  getOperaciones().find(operacion => operacion.id == id);
+  getOperaciones().find((operacion) => operacion.id == id);
 
 const setOperaciones = (operaciones) =>
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
@@ -69,6 +75,16 @@ const setOperaciones = (operaciones) =>
 const addOperacion = (operacion) => {
   operacion.id = crypto.randomUUID();
   setOperaciones([...getOperaciones(), operacion]);
+};
+
+const updateOperacion = (updatedOperacion) => {
+  const operaciones = getOperaciones();
+  const index = operaciones.findIndex(
+    (operacion) => operacion.id == updatedOperacion.id
+  );
+
+  operaciones[index] = updatedOperacion;
+  setOperaciones(operaciones);
 };
 // funcion para actualizar las nuevas categorias al selec
 const mostrarCategoriasEnSelect = () => {
@@ -196,64 +212,63 @@ const mostrarOperaciones = () => {
 
   contenidoHTML += `</tbody>`;
   $contenidoOperaciones.innerHTML = contenidoHTML;
-  
-
 
   const botonesEditar = $$(".botonEditar");
   for (const botonEditar of botonesEditar) {
     botonEditar.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
-      const operacion = getOperacion(id)
-      $sectionBalance.classList.add("hidden")
+      const operacion = getOperacion(id);
+      $sectionBalance.classList.add("hidden");
 
       const categorias = getCategorias();
       let aux = "";
       for (const categoria of categorias) {
-        aux += `<option value= "${categoria.id}" ${categoria.id ===operaciones.categoria ? "selected" : ""} > ${categoria.nombre} </option>`
+        aux += `<option value= "${categoria.id}" ${
+          categoria.id === operaciones.categoria ? "selected" : ""
+        } > ${categoria.nombre} </option>`;
       }
 
-      // const actualizarOperacionEdit = () =>{
-      //   const operacion = getOperacion ();
-
-      // }
-
-      btnGuardarEdit.addEventListener ("click",() =>{
-        $seccionEditarOperacion.classList.add("hidden")
-        $sectionBalance.classList.remove("hidden")
-        addOperacion( editarForm);
-        
-       })
-      
-      let editarForm = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
+      $seccionEditarOperacion.innerHTML = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
                 <div class="text-lg font-semibold px-4 py-2">Editar Operación</div>
+                <input type="hidden" id="editarId" value=${operacion.id}>
                 <div class="p-4">
                   <div class="mb-8">
                     <label class="block text-sm font-medium text-gray-700">Descripción</label>
-                    <input id="editarDescripcion" value="${operacion.descripcion}" type="text" class="w-full mt-1 p-2 border rounded-md" />
+                    <input id="editarDescripcion" value="${
+                      operacion.descripcion
+                    }" type="text" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Monto</label>
-                    <input value="${operacion.monto}" id="editarMonto" type="number" class="w-full mt-1 p-2 border rounded-md" />
+                    <input value="${
+                      operacion.monto
+                    }" id="editarMonto" type="number" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Tipo</label>
                     <select id="editarTipo" class="w-full mt-1 p-2 border rounded-md">
-                      <option value="Ganancias" ${operacion.tipo === "Ganancias" ? "selected":""}>Ganancias</option>
-                      <option value="Gastos" ${operacion.tipo === "Gastos" ? "selected":""}>Gastos</option>
+                      <option value="Ganancias" ${
+                        operacion.tipo === "Ganancias" ? "selected" : ""
+                      }>Ganancias</option>
+                      <option value="Gastos" ${
+                        operacion.tipo === "Gastos" ? "selected" : ""
+                      }>Gastos</option>
                     </select>
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Categoría</label>
-                    <select  "id="editarCategoria" class="w-full mt-1 p-2 border rounded-md">
+                    <select  id="editarCategoria" class="w-full mt-1 p-2 border rounded-md">
                       ${aux}
                     </select>
                   </div>
                   <div class="mb-3 mb-8">
                     <label class="block text-sm font-medium text-gray-700">Fecha</label>
-                    <input id="editarFecha" value="${operacion.fecha}" type="date" class="w-full mt-1 p-2 border rounded-md" />
+                    <input id="editarFecha" value="${
+                      operacion.fecha
+                    }" type="date" class="w-full mt-1 p-2 border rounded-md" />
                   </div>
                   <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-                    <button id="btnGuardarEdit " type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+                    <button id="btnGuardarEdit" type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
                       Guardar Cambios
                     </button>
                     <button id="btnCancelarEdicion" type="button" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-100">
@@ -261,43 +276,28 @@ const mostrarOperaciones = () => {
                     </button>
                   </div>
                 </div>
-              </form>`
-              $seccionEditarOperacion.innerHTML = editarform;
-              setOperacion();
+              </form>`;
+
+      $("#btnGuardarEdit").addEventListener("click", (event) => {
+        event.preventDefault();
+        const editOperacion = {
+          id: $("#editarId").value,
+          descripcion: $("#editarDescripcion").value,
+          categoria: $("#editarCategoria").value,
+          monto: $("#editarMonto").value,
+          tipo: $("#editarTipo").value,
+          fecha: $("#editarFecha").value,
+        };
+
+        updateOperacion(editOperacion);
+
+        $seccionEditarOperacion.innerHTML = "";
+        mostrarOperaciones();
+      });
     });
-    
   }
 };
-
-
-
-
-
-
-
-// function editarOperacion(id) {
-//   // Buscar la operación en el localStorage por ID
-//   const operaciones = getOperaciones();
-//   const operacion = operaciones.find(operacion => operacion.id === id);
-
-//   if (operacion) {
-//     // Rellenar los campos con los valores actuales
-//     $("#editarDescripcion").value = operacion.descripcion;
-//     $("#editarMonto").value = operacion.monto;
-//     $("#editarTipo").value = operacion.tipo;
-//     $("#editarCategoria").value = operacion.categoria;
-//     $("#editarFecha").value = operacion.fecha;
-
-//     // Mostrar el formulario de edición y ocultar el formulario de operaciones
-//     $sectionOperacion.classList.add("hidden");
-//     $sectionBalance.classList.add("hidden");
-//     $sectionCategoria.classList.add("hidden");
-//     $("#editarOperacion").classList.remove("hidden");
-
-//     // Actualizar la lista de categorías en el select de edición
-//     mostrarCategoriasEnSelect(); // Asegúrate de que las categorías estén actualizadas en el select
-//   }
-// }
+mostrarOperaciones();
 
 // Eventos de navegación
 $buttonBalance.addEventListener("click", () => {
