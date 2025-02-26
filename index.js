@@ -293,6 +293,9 @@ const mostrarOperaciones = () => {
 
         $seccionEditarOperacion.innerHTML = "";
         mostrarOperaciones();
+        $sectionBalance.classList.remove("hidden");
+        $sectionOperacion.classList.add("hidden");
+        $sectionCategoria.classList.add("hidden");
       });
     });
   }
