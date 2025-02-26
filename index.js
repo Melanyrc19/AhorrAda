@@ -13,10 +13,10 @@ const $menuHamburguesa = $("#menuHamburguesa");
 const $botonesMenu = $("#botonesMenu");
 
 // Balance y Operación
-const $buttonBalance = $("#botonBalance");
+const $botonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
-const $botonOPeracion = $("#btnOperacion");
+const $botonOperacion = $("#botonOperacion");
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -75,6 +75,10 @@ const setOperaciones = (operaciones) =>
 const addOperacion = (operacion) => {
   operacion.id = crypto.randomUUID();
   setOperaciones([...getOperaciones(), operacion]);
+};
+
+const deleteOperacion = (id) => {
+  setOperaciones(getOperaciones().filter((op) => op.id != id));
 };
 
 const updateOperacion = (updatedOperacion) => {
@@ -172,6 +176,7 @@ function editarCategoria(id) {
 const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
   const categorias = getCategorias();
+  $seccionEditarOperacion.innerHTML = ""
 
   let contenidoHTML = `
     <thead>
@@ -197,7 +202,7 @@ const mostrarOperaciones = () => {
       : "Categoría no encontrada";
 
     contenidoHTML += `
-            <tr class="text-sm ">
+            <tr id="contenidOpe"class="text-sm ">
         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
         <td class="text-left px-4 py-3">${nombreCategoria}</td> 
         <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
@@ -212,6 +217,15 @@ const mostrarOperaciones = () => {
 
   contenidoHTML += `</tbody>`;
   $contenidoOperaciones.innerHTML = contenidoHTML;
+
+  const botonesEliminar = $$(".botonEliminar");
+  for (const botonEliminar of botonesEliminar) {
+    botonEliminar.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      deleteOperacion(id);
+      mostrarOperaciones();
+    });
+  }
 
   const botonesEditar = $$(".botonEditar");
   for (const botonEditar of botonesEditar) {
@@ -290,8 +304,6 @@ const mostrarOperaciones = () => {
         };
 
         updateOperacion(editOperacion);
-
-        $seccionEditarOperacion.innerHTML = "";
         mostrarOperaciones();
         $sectionBalance.classList.remove("hidden");
         $sectionOperacion.classList.add("hidden");
@@ -303,10 +315,11 @@ const mostrarOperaciones = () => {
 mostrarOperaciones();
 
 // Eventos de navegación
-$buttonBalance.addEventListener("click", () => {
+$botonBalance.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
   $sectionOperacion.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
+  mostrarOperaciones()
 });
 
 $botonAgregar.addEventListener("click", () => {
@@ -315,7 +328,7 @@ $botonAgregar.addEventListener("click", () => {
   $sectionCategoria.classList.add("hidden");
 });
 
-$botonOPeracion.addEventListener("click", () => {
+$botonOperacion.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
   $sectionBalance.classList.remove("hidden");
   $sectionCategoria.classList.add("hidden");
