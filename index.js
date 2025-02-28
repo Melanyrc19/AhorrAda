@@ -20,7 +20,7 @@ const $botonOperacion = $("#botonOperacion");
 const $montoGanancia = $("#montoGanancia")
 const $montoGasto = $("#montoGasto")
 const $montoTotal = $("#montoTotal")
-
+const $botonReportes =$("#botonReportes")
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
 const $botonAñadirCategoria = $("#botonAñadirCategoria");
@@ -355,6 +355,11 @@ $botonOperacion.addEventListener("click", () => {
 $botonCategorias.addEventListener("click", () => {
   ocultarTodoMenos("categorias");
 });
+
+$botonReportes.addEventListener("click", () => {
+  ocultarTodoMenos("reportes");
+});
+
 
 // Eventos de Categorías
 $botonAñadirCategoria.addEventListener("click", () => {
