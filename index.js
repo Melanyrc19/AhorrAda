@@ -17,6 +17,9 @@ const $botonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOperacion = $("#botonOperacion");
+const $montoGanancia = $("#montoGanancia")
+const $montoGasto = $("#montoGasto")
+const $montoTotal = $("#montoTotal")
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -33,6 +36,7 @@ const $sectionCategoria = $("#categorias");
 const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
 const $seccionReportes = $("#reportes");
+
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -91,6 +95,27 @@ const updateOperacion = (updatedOperacion) => {
   operaciones[index] = updatedOperacion;
   setOperaciones(operaciones);
 };
+
+const mostrarFondos = () => {
+  const operaciones = getOperaciones()
+  let ganancias = 0;
+  let gastos = 0;
+  
+  for (const operacion of operaciones) {
+    const monto = Number(operacion.monto)
+    if (operacion.tipo === "Ganancias") {
+      ganancias += monto;
+    } else {
+      gastos += monto;
+    }
+  }
+  
+  $montoGanancia.innerHTML = `+$${ganancias}`
+  $montoGasto.innerHTML = `-$${gastos}`
+  $montoTotal.innerHTML = `${ganancias - gastos}`
+};
+
+
 // funcion para actualizar las nuevas categorias al selec
 const mostrarCategoriasEnSelect = () => {
   const categorias = getCategorias();
@@ -134,7 +159,7 @@ const mostrarCategorias = () => {
   arrayBotonEditar.forEach((button) => {
     button.addEventListener("click", (e) => {
       editarCategoria(e.target.dataset.id);
-      $inputEditarCategorias.classList.toglee = "hidden";
+      $inputEditarCategorias.classList.toggle = "hidden";
     });
   });
 };
@@ -144,6 +169,7 @@ function quitarCategoria(id) {
   categorias = categorias.filter((categoria) => categoria.id !== id);
   setCategorias(categorias);
   mostrarCategorias();
+  mostrarFondos();
 }
 function editarCategoria(id) {
   let categorias = getCategorias();
@@ -178,7 +204,7 @@ const mostrarOperaciones = () => {
   const operaciones = getOperaciones();
   const categorias = getCategorias();
   $seccionEditarOperacion.innerHTML = "";
-  
+
   let contenidoHTML = `
     <thead>
       <tr>
@@ -225,6 +251,7 @@ const mostrarOperaciones = () => {
       const id = e.target.dataset.id;
       deleteOperacion(id);
       mostrarOperaciones();
+      mostrarFondos();
     });
   }
 
@@ -233,7 +260,7 @@ const mostrarOperaciones = () => {
     botonEditar.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
       const operacion = getOperacion(id);
-      ocultarTodoMenos('seccionEditarOperacion');
+      ocultarTodoMenos("seccionEditarOperacion");
 
       const categorias = getCategorias();
       let aux = "";
@@ -306,25 +333,27 @@ const mostrarOperaciones = () => {
 
         updateOperacion(editOperacion);
         mostrarBalance();
+        mostrarFondos();
       });
     });
   }
 };
+
 // Eventos de navegación
 $botonBalance.addEventListener("click", () => {
-  mostrarBalance()
+  mostrarBalance();
 });
 
 $botonAgregar.addEventListener("click", () => {
-  ocultarTodoMenos("operacion")
+  ocultarTodoMenos("operacion");
 });
 
 $botonOperacion.addEventListener("click", () => {
-  mostrarBalance()
+  mostrarBalance();
 });
 
 $botonCategorias.addEventListener("click", () => {
-  ocultarTodoMenos("categorias")
+  ocultarTodoMenos("categorias");
 });
 
 // Eventos de Categorías
@@ -347,14 +376,14 @@ $formOperacion.addEventListener("submit", (event) => {
   };
   addOperacion(operacion);
   mostrarOperaciones();
+  mostrarFondos();
 });
-
-
 
 const mostrarBalance = () => {
   ocultarTodoMenos("balance");
   mostrarCategorias();
   mostrarOperaciones();
+  mostrarFondos();
 };
 
 const ocultarTodoMenos = (id) => {
@@ -386,13 +415,13 @@ const ocultarTodoMenos = (id) => {
   ];
 
   for (const section of sections) {
-    if(section.id == id){
-      section.dom.classList.remove("hidden")
-    }else{
-      section.dom.classList.add("hidden")
+    if (section.id == id) {
+      section.dom.classList.remove("hidden");
+    } else {
+      section.dom.classList.add("hidden");
     }
   }
 };
 
 // Inicialización
-mostrarBalance()
+mostrarBalance();
