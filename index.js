@@ -157,7 +157,7 @@ function editarCategoria(id) {
     const botonEditarCategoria = $("#botonEditarCategoriaInput");
 
     botonEditarCategoria.addEventListener("click", () => {
-      const nuevoNomsectionOpbre = inputCategoriaNombre.value;
+      const nuevoNombre = inputCategoriaNombre.value;
 
       if (nuevoNombre) {
         categoria.nombre = nuevoNombre;
@@ -386,4 +386,318 @@ $formOperacion.addEventListener("submit", (event) => {
   mostrarOperaciones();
 });
 
+
+
+// me trabe
+
+// Obtener los elementos del filtro
+const $filtroTipo = $("#filtroTipo");
+const $filtroCategoria = $("#filtroCategoria");
+const $filtroFecha = $("#filtroFecha");
+const $filtroOrden = $("#filtroOrden");
+
+// Filtrar operaciones
+const filtrarOperaciones = () => {
+  const tipoSeleccionado = $filtroTipo.val(); // Llamar correctamente a .val()
+  const categoriaSeleccionada = $filtroCategoria.val(); // Llamar correctamente a .val()
+  const fechaSeleccionada = $filtroFecha.val(); // Llamar correctamente a .val()
+  const ordenarPor = $filtroOrden.val(); // Llamar correctamente a .val()
+
+  const operaciones = getOperaciones(); // Obtener las operaciones
+  // const categorias = getCategorias(); // Obtener las categorías (aunque no lo usas aquí)
+
+  // Filtrar operaciones según los criterios seleccionados
+  const operacionesFiltradas = operaciones.filter(operacion => {
+    const tipoValido = tipoSeleccionado ? operacion.tipo.toLowerCase() === tipoSeleccionado.toLowerCase() : true;
+    const categoriaValida = categoriaSeleccionada ? operacion.categoria === categoriaSeleccionada : true;
+    const fechaValida = fechaSeleccionada ? new Date(operacion.fecha) >= new Date(fechaSeleccionada) : true;
+    return tipoValido && categoriaValida && fechaValida;
+  });
+
+  console.log(operacionesFiltradas); // Mostrar las operaciones filtradas
+
+
+
+const operacionOrdenada = operacionesFiltradas.sort((a, b) => {
+  switch (ordenarPor) {
+    case 'desc':
+      return new Date(b.fecha) - new Date(a.fecha);
+
+    case 'asc':
+      return new Date(a.fecha) - new Date(b.fecha);
+
+    case 'mayorMonto':
+      return b.monto - a.monto;
+
+    case 'menorMonto':
+      return a.monto - b.monto;
+
+    case 'az':
+      return a.descripcion.localeCompare(b.descripcion);
+
+    case 'za':
+      return b.descripcion.localeCompare(a.descripcion);
+     default:
+    return 0;
+  }
+
+
+});
+mostrarOperaciones(operacionOrdenada);
+
+}
+$filtroTipo.addEventListener('change', filtrarOperaciones);
+$filtroCategoria.addEventListener('change', filtrarOperaciones);
+$filtroFecha.addEventListener('change', filtrarOperaciones);
+$filtroOrden.addEventListener('change', filtrarOperaciones);
+
+// Inicializar la visualización de las operaciones filtradas
+mostrarOperaciones(getOperaciones());
+
+const cargarCategoriasFiltro = () => {
+  const categorias = getCategorias();
+  const filtroCategoria = document.querySelector("#filtroCategoria");
+  filtroCategoria.innerHTML = "";  // Limpia las opciones existentes
+
+  categorias.forEach(categoria => {
+    const option = document.createElement("option");
+    option.value = categoria.id;
+    option.textContent = categoria.nombre;
+    filtroCategoria.appendChild(option);
+  });
+};  
+
+// Llama a cargarCategoriasFiltro al cargar la página
+window.onload = cargarCategoriasFiltro;
+
+
+
+
+
+mostrarCategorias();
+mostrarOperaciones();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Filtrar operaciones por tipo, categoría y fecha
+//   const operacionesFiltradas = operaciones.filter(operacion => {
+//     const tipoValido = tipoSeleccionado ? operacion.tipo.toLowerCase() === tipoSeleccionado : true;
+//     const categoriaValida = categoriaSeleccionada ? operacion.categoria === categoriaSeleccionada : true;
+//     const fechaValida = fechaSeleccionada ? new Date(operacion.fecha) >= new Date(fechaSeleccionada) : true;
+
+//     return tipoValido && categoriaValida && fechaValida;
+//   });
+
+//   const operacionesOrdenadas = operacionesFiltradas.sort((a, b) => {
+//     switch (ordenarPor) {
+//       case 'desc':
+//         return new Date(b.fecha) - new Date(a.fecha); // Más reciente
+//       case 'asc':
+//         return new Date(a.fecha) - new Date(b.fecha); // Más antiguo
+//       case 'mayorMonto':
+//         return b.monto - a.monto; // Mayor monto
+//       case 'menorMonto':
+//         return a.monto - b.monto; // Menor monto
+//       case 'az':
+//         return a.descripcion.localeCompare(b.descripcion); // A/Z
+//       case 'za':
+//         return b.descripcion.localeCompare(a.descripcion); // Z/A
+//       default:
+//         return 0; // Si no se seleccionó ningún valor
+//     }
+//   });
+
+//   mostrarOperacionesFiltradas(operacionesOrdenadas, categorias);
+// };
+
+// // Mostrar las operaciones filtradas
+// const mostrarOperacionesFiltradas = (operaciones, categorias) => {
+//   let contenidoHTML = `
+//     <thead>
+//       <tr>
+//         <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
+//         <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
+//         <th class="hidden lg:block text-left font-bold text-sm py-3 px-4">Tipo</th>
+//         <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
+//         <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Fecha</th>
+//         <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
+//       </tr>
+//     </thead>
+//     <tbody>`;
+
+//   // Iteramos sobre las operaciones filtradas
+//   for (const operacion of operaciones) {
+//     const categoria = categorias.find(categoria => categoria.id === operacion.categoria);
+//     const nombreCategoria = categoria ? categoria.nombre : "Categoría no encontrada";
+
+//     contenidoHTML += `
+//       <tr class="text-sm">
+//         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
+//         <td class="text-left px-4 py-3">${nombreCategoria}</td>
+//         <td class="hidden lg:block text-left px-4 py-3">${operacion.tipo}</td>
+//         <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
+//         <td class="hidden md:block text-left px-4 py-3">${operacion.fecha}</td>
+//         <td class="text-left px-4 py-3">
+//           <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
+//           <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button>
+//         </td>
+//       </tr>`;
+//   }
+
+//   contenidoHTML += `</tbody>`;
+//   $contenidoOperaciones.innerHTML = contenidoHTML;
+
+//   // Añadir eventos de editar y eliminar
+//   const botonesEditar = $$(".botonEditar");
+//   botonesEditar.forEach(boton => {
+//     boton.addEventListener("click", (e) => {
+//       const id = e.target.dataset.id;
+//       // Aquí debes manejar la edición de la operación...
+//     });
+//   });
+
+//   const botonesEliminar = $$(".botonEliminar");
+//   botonesEliminar.forEach(boton => {
+//     boton.addEventListener("click", (e) => {
+//       const id = e.target.dataset.id;
+//       // Aquí debes manejar la eliminación de la operación...
+//     });
+//   });
+// };
+
+// // Escuchar cambios en los campos del filtro
+// $filtroTipo.addEventListener("change", filtrarOperaciones);
+// $filtroCategoria.addEventListener("change", filtrarOperaciones);
+// $filtroFecha.addEventListener("change", filtrarOperaciones);
+// $filtroOrden.addEventListener("change", filtrarOperaciones);
+
+// // Inicializar
+// mostrarCategoriasEnFiltro();
+// filtrarOperaciones();  // Cargar las operaciones filtradas al principio
+
+
+
+// Inicialización
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Filtrar operaciones por tipo, categoría y fecha
+//   const operacionesFiltradas = operaciones.filter(operacion => {
+//     const tipoValido = tipoSeleccionado ? operacion.tipo.toLowerCase() === tipoSeleccionado : true;
+//     const categoriaValida = categoriaSeleccionada ? operacion.categoria === categoriaSeleccionada : true;
+//     const fechaValida = fechaSeleccionada ? new Date(operacion.fecha) >= new Date(fechaSeleccionada) : true;
+
+//     return tipoValido && categoriaValida && fechaValida;
+//   });
+
+//   const operacionesOrdenadas = operacionesFiltradas.sort((a, b) => {
+//     switch (ordenarPor) {
+//       case 'desc':
+//         return new Date(b.fecha) - new Date(a.fecha); // Más reciente
+//       case 'asc':
+//         return new Date(a.fecha) - new Date(b.fecha); // Más antiguo
+//       case 'mayorMonto':
+//         return b.monto - a.monto; // Mayor monto
+//       case 'menorMonto':
+//         return a.monto - b.monto; // Menor monto
+//       case 'az':
+//         return a.descripcion.localeCompare(b.descripcion); // A/Z
+//       case 'za':
+//         return b.descripcion.localeCompare(a.descripcion); // Z/A
+//       default:
+//         return 0; // Si no se seleccionó ningún valor
+//     }
+//   });
+
+//   mostrarOperacionesFiltradas(operacionesOrdenadas, categorias);
+// };
+
+// // Mostrar las operaciones filtradas
+// const mostrarOperacionesFiltradas = (operaciones, categorias) => {
+//   let contenidoHTML = `
+//     <thead>
+//       <tr>
+//         <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
+//         <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
+//         <th class="hidden lg:block text-left font-bold text-sm py-3 px-4">Tipo</th>
+//         <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
+//         <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Fecha</th>
+//         <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
+//       </tr>
+//     </thead>
+//     <tbody>`;
+
+//   // Iteramos sobre las operaciones filtradas
+//   for (const operacion of operaciones) {
+//     const categoria = categorias.find(categoria => categoria.id === operacion.categoria);
+//     const nombreCategoria = categoria ? categoria.nombre : "Categoría no encontrada";
+
+//     contenidoHTML += `
+//       <tr class="text-sm">
+//         <td class="text-left px-4 py-3">${operacion.descripcion}</td>
+//         <td class="text-left px-4 py-3">${nombreCategoria}</td>
+//         <td class="hidden lg:block text-left px-4 py-3">${operacion.tipo}</td>
+//         <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
+//         <td class="hidden md:block text-left px-4 py-3">${operacion.fecha}</td>
+//         <td class="text-left px-4 py-3">
+//           <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
+//           <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button>
+//         </td>
+//       </tr>`;
+//   }
+
+//   contenidoHTML += `</tbody>`;
+//   $contenidoOperaciones.innerHTML = contenidoHTML;
+
+//   // Añadir eventos de editar y eliminar
+//   const botonesEditar = $$(".botonEditar");
+//   botonesEditar.forEach(boton => {
+//     boton.addEventListener("click", (e) => {
+//       const id = e.target.dataset.id;
+//       // Aquí debes manejar la edición de la operación...
+//     });
+//   });
+
+//   const botonesEliminar = $$(".botonEliminar");
+//   botonesEliminar.forEach(boton => {
+//     boton.addEventListener("click", (e) => {
+//       const id = e.target.dataset.id;
+//       // Aquí debes manejar la eliminación de la operación...
+//     });
+//   });
+// };
+
+// // Escuchar cambios en los campos del filtro
+// $filtroTipo.addEventListener("change", filtrarOperaciones);
+// $filtroCategoria.addEventListener("change", filtrarOperaciones);
+// $filtroFecha.addEventListener("change", filtrarOperaciones);
+// $filtroOrden.addEventListener("change", filtrarOperaciones);
+
+// // Inicializar
+// mostrarCategoriasEnFiltro();
+// filtrarOperaciones();  // Cargar las operaciones filtradas al principio
 
