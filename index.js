@@ -103,6 +103,21 @@ const getOperacionFiltradas = ()=>{
       (op) => new Date(op.fecha) >= fecha
     );
   }
+
+  if (filter.orden) {
+    const ordenaciones = {
+      masAntiguo: (a, b) => new Date(b.fecha) - new Date(a.fecha),
+      masReciente: (a, b) => new Date(a.fecha) - new Date(b.fecha),
+      mayorMonto: (a, b) => b.monto - a.monto,
+      menorMonto: (a, b) => a.monto - b.monto,
+      AZ: (a, b) => a.descripcion.localeCompare(b.descripcion),
+      ZA: (a, b) => b.descripcion.localeCompare(a.descripcion),
+    };
+  
+    const ordenarPor = ordenaciones[filter.orden];
+    
+    operacionesFiltradas.sort(ordenarPor);
+  }
   return operacionesFiltradas;
 }
 const setOperaciones = (operaciones) =>
@@ -132,7 +147,7 @@ const getFilter = () =>
     tipo: null,
     categoria: null,
     fecha: null,
-    orden: "default",
+    orden: null,
   };
 
 const updateFilter = (filter) =>
@@ -490,11 +505,14 @@ $fechaFilterBalance.addEventListener("change", (e) => {
 
 $ordenFilterBalance.addEventListener("change", (e) => {
   const orden = e.target.value;
-  updateFilter({ orden: orden ==  "masReciente" ? null : orden });
+  updateFilter({ orden });
+
   mostrarOperaciones();
   mostrarFondos();
 })
 
+
+  
 
 // Inicialización
 localStorage.removeItem("filter")
