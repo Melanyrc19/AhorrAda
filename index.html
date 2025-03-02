@@ -61,7 +61,7 @@
                 <label class="block text-sm font-medium text-gray-700"
                   >Tipo</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
+                <select class="w-full mt-1 p-2 border rounded-md" id="tipoFilterBalance">
                   <option>Todos</option>
                   <option>Gastos</option>
                   <option>Ganancias</option>
@@ -71,25 +71,24 @@
                 <label class="block text-sm font-medium text-gray-700"
                   >Categoría</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
+                <select class="w-full mt-1 p-2 border rounded-md" id="categoriaFilterBalance">
                   <option>Todas</option>
-                  <option>Categoría 1</option>
-                  <option>Categoría 2</option>
+               
                 </select>
               </div>
               <div class="mb-3 mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Desde</label
                 >
-                <input type="date" class="w-full mt-1 p-2 border rounded-md" />
+                <input type="date" class="w-full mt-1 p-2 border rounded-md" id="fechaFilterBalance" />
               </div>
               <div class="mb-3 mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Ordenar por</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
-                  <option>Más reciente</option>
-                  <option>Más antiguo</option>
+                <select class="w-full mt-1 p-2 border rounded-md" id="ordenFilterBalance">
+                  <option value="masReciente">Más reciente</option>
+                  <option value="masAntiguo">Más antiguo</option>
                 </select>
               </div>
             </div>
@@ -154,10 +153,6 @@
                 >Categoria</label
               >
               <select id="listadoDeCategorias" class="w-full mt-1 p-2 border rounded-md" name="categoria">
-                <option>Trabajo</option>
-                <option>Educacion</option>
-                <option value="">Transporte</option>
-                <option value="">Comida</option>
               </select>
             </div>
             <div class="mb-3 mb-8">

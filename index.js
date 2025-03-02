@@ -17,10 +17,16 @@ const $botonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOperacion = $("#botonOperacion");
-const $montoGanancia = $("#montoGanancia")
-const $montoGasto = $("#montoGasto")
-const $montoTotal = $("#montoTotal")
-const $botonReportes =$("#botonReportes")
+const $montoGanancia = $("#montoGanancia");
+const $montoGasto = $("#montoGasto");
+const $montoTotal = $("#montoTotal");
+const $botonReportes = $("#botonReportes");
+const $tipoFilterBalance = $("#tipoFilterBalance");
+const $categoriaFilterBalance = $("#categoriaFilterBalance"); 
+const $fechaFilterBalance = $("#fechaFilterBalance");
+const $ordenFilterBalance = $ ("#ordenFilterBalance");
+
+
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
 const $botonAñadirCategoria = $("#botonAñadirCategoria");
@@ -28,6 +34,7 @@ const $botonCategorias = $("#botonCategorias");
 const $inputListadosDeCategorias = $("#listadoDeCategorias");
 const $listadoDeCategoriasVista = $("#listadoDeCategoriasVista");
 const $inputEditarCategorias = $("#inputEditarCategorias");
+
 
 // Secciones
 const $sectionBalance = $("#balance");
@@ -37,11 +44,11 @@ const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
 const $seccionReportes = $("#reportes");
 
-
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
 const getCategorias = () => {
   const categorias = JSON.parse(localStorage.getItem("categorias"));
+
   if (categorias) {
     return categorias;
   }
@@ -74,6 +81,30 @@ const getOperaciones = () =>
 const getOperacion = (id) =>
   getOperaciones().find((operacion) => operacion.id == id);
 
+const getOperacionFiltradas = ()=>{
+  const filter = getFilter();
+  let operacionesFiltradas = getOperaciones();
+
+  if (filter.tipo) {
+    operacionesFiltradas = operacionesFiltradas.filter(
+      (op) => op.tipo === filter.tipo
+    );
+  }
+
+  if (filter.categoria) {
+    operacionesFiltradas = operacionesFiltradas.filter(
+      (op) => op.categoria === filter.categoria
+    );
+  }
+
+  if (filter.fecha) {
+    const fecha = new Date(filter.fecha);
+    operacionesFiltradas = operacionesFiltradas.filter(
+      (op) => new Date(op.fecha) >= fecha
+    );
+  }
+  return operacionesFiltradas;
+}
 const setOperaciones = (operaciones) =>
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
 
@@ -96,32 +127,40 @@ const updateOperacion = (updatedOperacion) => {
   setOperaciones(operaciones);
 };
 
+const getFilter = () =>
+  JSON.parse(localStorage.getItem("filter")) || {
+    tipo: null,
+    categoria: null,
+    fecha: null,
+    orden: "default",
+  };
+
+const updateFilter = (filter) =>
+  localStorage.setItem("filter", JSON.stringify({ ...getFilter(), ...filter }));
+
 const mostrarFondos = () => {
-  const operaciones = getOperaciones()
+  const operaciones = getOperacionFiltradas();
   let ganancias = 0;
   let gastos = 0;
-  
+
   for (const operacion of operaciones) {
-    const monto = Number(operacion.monto)
+    const monto = Number(operacion.monto);
     if (operacion.tipo === "Ganancias") {
       ganancias += monto;
     } else {
       gastos += monto;
     }
   }
-  
-  $montoGanancia.innerHTML = `+$${ganancias}`
-  $montoGasto.innerHTML = `-$${gastos}`
-  $montoTotal.innerHTML = `${ganancias - gastos}`
+
+  $montoGanancia.innerHTML = `+$${ganancias}`;
+  $montoGasto.innerHTML = `-$${gastos}`;
+  $montoTotal.innerHTML = `${ganancias - gastos}`;
 };
 
-
 // funcion para actualizar las nuevas categorias al selec
-const mostrarCategoriasEnSelect = () => {
+const mostrarCategoriasEnSelect = (selectCategoria,optionTodos =false) => {
   const categorias = getCategorias();
-  const selectCategoria = $("[name='categoria']");
-
-  selectCategoria.innerHTML = "";
+  selectCategoria.innerHTML = optionTodos?`<option>Todos</option>`:"";
 
   categorias.forEach((categoria) => {
     const option = document.createElement("option");
@@ -133,7 +172,6 @@ const mostrarCategoriasEnSelect = () => {
 
 const mostrarCategorias = () => {
   const categorias = getCategorias();
-  mostrarCategoriasEnSelect(); //se actualiza categorias
   let aux = "";
 
   for (const categoria of categorias) {
@@ -201,7 +239,8 @@ function editarCategoria(id) {
 }
 
 const mostrarOperaciones = () => {
-  const operaciones = getOperaciones();
+  const operaciones = getOperacionFiltradas();
+
   const categorias = getCategorias();
   $seccionEditarOperacion.innerHTML = "";
 
@@ -264,12 +303,12 @@ const mostrarOperaciones = () => {
 
       const categorias = getCategorias();
       let aux = "";
+
       for (const categoria of categorias) {
         aux += `<option value= "${categoria.id}" ${
-          categoria.id === operaciones.categoria ? "selected" : ""
+          categoria.id === operacion.categoria ? "selected" : ""
         } > ${categoria.nombre} </option>`;
       }
-
       $seccionEditarOperacion.innerHTML = `<form class=" rounded-lg shadow-lg bg-white my-6 mx-8" id="formEditarOperacion">
                 <div class="text-lg font-semibold px-4 py-2">Editar Operación</div>
                 <input type="hidden" id="editarId" value=${operacion.id}>
@@ -346,6 +385,7 @@ $botonBalance.addEventListener("click", () => {
 
 $botonAgregar.addEventListener("click", () => {
   ocultarTodoMenos("operacion");
+  mostrarCategoriasEnSelect($("#listadoDeCategorias"))
 });
 
 $botonOperacion.addEventListener("click", () => {
@@ -359,7 +399,6 @@ $botonCategorias.addEventListener("click", () => {
 $botonReportes.addEventListener("click", () => {
   ocultarTodoMenos("reportes");
 });
-
 
 // Eventos de Categorías
 $botonAñadirCategoria.addEventListener("click", () => {
@@ -386,9 +425,9 @@ $formOperacion.addEventListener("submit", (event) => {
 
 const mostrarBalance = () => {
   ocultarTodoMenos("balance");
-  mostrarCategorias();
   mostrarOperaciones();
   mostrarFondos();
+  mostrarCategoriasEnSelect($("#categoriaFilterBalance"),true);
 };
 
 const ocultarTodoMenos = (id) => {
@@ -428,5 +467,35 @@ const ocultarTodoMenos = (id) => {
   }
 };
 
+$tipoFilterBalance.addEventListener("change", (e) => {
+  const tipo = e.target.value;
+  updateFilter({ tipo: tipo == "Todos" ? null : tipo });
+  mostrarOperaciones();
+  mostrarFondos();
+});
+
+$categoriaFilterBalance.addEventListener("change", (e) => {
+  const categoria = e.target.value;
+  updateFilter({ categoria: categoria == "Todos" ? null : categoria });
+  mostrarOperaciones();
+  mostrarFondos();
+});
+$fechaFilterBalance.addEventListener("change", (e) => {
+  const fecha = e.target.value;
+  updateFilter({ fecha: fecha == "Todos" ? null : fecha });
+  mostrarOperaciones();
+  mostrarFondos();
+
+})
+
+$ordenFilterBalance.addEventListener("change", (e) => {
+  const orden = e.target.value;
+  updateFilter({ orden: orden ==  "masReciente" ? null : orden });
+  mostrarOperaciones();
+  mostrarFondos();
+})
+
+
 // Inicialización
+localStorage.removeItem("filter")
 mostrarBalance();
