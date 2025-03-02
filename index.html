@@ -21,12 +21,29 @@
         <button id="botonReportes" class="m-5">Reportes</button>
       </div>
       <div class="md:hidden">
-        <button>
-          <i id="MenuHamburguesa" class="text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>   
+        <button id="menuHamburguesa" class="md:hidden">
+          <i class="text-white p-6 fa-solid fa-bars menu-profile "></i>   
         </button>
-       
       </div>
+      
     </header>
+    <section id="menuDesplegadoHamburguesa" class="hidden md:hidden container mx-auto flex flex-col ">
+      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8 relative p-4">
+          <button class="absolute top-0 right-[0px] p-2 bg-blue-200 rounded-sm text-md text-gray-700 hover:bg-blue-300" id="botonCerrarMenu">
+            X
+          </button>
+       
+        <button id="botonBalanceMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+         Balance
+        </button>
+        <button id="botonCategoriasMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Categorías
+        </button>
+        <button id="botonReportesMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Reportes
+        </button>
+      </div>
+    </section>
     <main>
       <section
         id="balance"
@@ -50,13 +67,13 @@
               </div>
             </div>
           </div>
-          <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
+          <div id="seccionFiltro" class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="flex items-center justify-between px-4 py-2">
               <div class="text-lg font-semibold">Filtro</div>
-              <div>Ocultar Filtro</div>
+              <button id="btnOcultarFiltro">Ocultar Filtro</button>
             </div>
 
-            <div class="p-4">
+            <div id="contenidoSeccionFiltro" class="p-4">
               <div class="mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Tipo</label
@@ -101,16 +118,17 @@
         <div class="w-full sm:w-2/3">
           <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="flex items-center justify-between px-4 py-2">
-              <h3>Operaciones</h3>
+              <h3 class="py-6 text-2xl font-semibold text-gray-700 ">Operaciones</h3>
               <button
               id="botonAgregar"
-              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+              class="bg-green-500 text-white text-sm px-4 py-2 rounded-lg shadow hover:bg-green-600"
             >
-              Nueva Operacion
+              + Nueva Operacion
             </button>
             </div>
-            <table id="contenidoOperaciones" class=" w-5/6 m-auto ">
-              </table>
+            <div id="contenidoOperaciones" class=" w-5/6 m-auto ">
+            </div>
+             
 
          </div>
           
@@ -220,39 +238,98 @@
         </div>
 
       </section>
-      <section id="reportes" class="container mx-auto flex flex-col sm:flex-row ">
-        <div class="container mx-auto rounded-lg shadow-lg bg-white my-6 mx-8" >
-         <h1 class="text-lg font-semibold px-4 py-2">Reportes</h1>
-         <h2>Resumen</h2>
-         <div>
-          <div>
-            <div>Categoria Con Mayor Ganancia</div>
-            <div></div>
-            <div></div>
+
+      <section id="sectionReporte" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10 hidden">
+        <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2>
+      
+        <div class="px-4">
+          <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
+      
+          <!-- Categoria con mayor ganancia -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="sm:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor ganancia</p>
+            <span class="text-sm">Educacion</span>
+            <span class="text-green-500">+$000</span>
           </div>
-          <div>
-            <div>Categoria Con Menor Ganancia</div>
-            <div></div>
-            <div></div>
+      
+          <!-- Categoria con mayor gasto -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor gasto</p>
+            <span class="text-sm">Educacion</span>
+            <span class="text-red-500">-$000</span>
           </div>
-          <div>
-            <div>Categoria Con Mayor Balance</div>
-            <div></div>
-            <div></div>
+      
+          <!-- Categoria con mayor balance -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor balance</p>
+            <span class="text-sm">Educacion</span>
+            <span>$0000</span>
           </div>
-          <div>
-            <div>Mes Con Mayor Ganancia</div>
-            <div></div>
-            <div></div>
+      
+          <!-- Mes con mayor ganancia -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor ganancia</p>
+            <span class="text-sm">fecha</span>
+            <span class="text-green-500">$0000</span>
           </div>
-          <div>
-            <div>Mes con Mayor Gasto</div>
-            <div></div>
-            <div></div>
+      
+          <!-- Mes con mayor gasto -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor gastos</p>
+            <span class="text-sm">fecha</span>
+            <span class="text-red-500">-$0000</span>
           </div>
-         </div>
+        </div>
+      
+        <!-- Totales por Categorias -->
+        <div class="md:m-5">
+          <h2 class="text-lg md:text-2xl font-semibold">Totales por categorias</h2>
+          <div class="flex flex-wrap md:flex-row md:justify-between">
+            <div class=" flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Categorias</h3>
+              <p>pepito</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
+              <p class="text-green-500">+$000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
+              <p class="text-red-500">-$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Balance</h3>
+              <p>$0000</p>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Totales por Mes -->
+        <div class="md:m-5 py-[100px]">
+          <h2 class="text-lg md:text-2xl font-semibold md:my-22">Totales por mes</h2>
+          <div class="flex flex-wrap md:flex-row md:justify-between my-6">
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Mes</h3>
+              <p>fecha</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
+              <p class="text-green-500">+$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
+              <p class="text-red-500">-$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg ">Balance</h3>
+              <p>$0000</p>
+            </div>
+          </div>
         </div>
       </section>
+
+        
+
     </main>
 
     <script src="index.js"></script>

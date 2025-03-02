@@ -20,11 +20,24 @@ const $botonOperacion = $("#botonOperacion");
 const $montoGanancia = $("#montoGanancia");
 const $montoGasto = $("#montoGasto");
 const $montoTotal = $("#montoTotal");
-const $botonReportes = $("#botonReportes");
 const $tipoFilterBalance = $("#tipoFilterBalance");
 const $categoriaFilterBalance = $("#categoriaFilterBalance"); 
 const $fechaFilterBalance = $("#fechaFilterBalance");
 const $ordenFilterBalance = $ ("#ordenFilterBalance");
+
+const btnOcultarFiltro = $("#btnOcultarFiltro")
+const $botonReportes = $("#botonReportes");
+const $botonCerrarMenu =$("#botonCerrarMenu");
+
+
+
+const $btnBalanceMenuHamburguesa = $("#botonBalanceMenuHamburguesa");
+const $btnReportesMenuHamburguesa = $("#botonReportesMenuHamburguesa");
+const $btnCategoriaMenuHamburguesa = $("#botonCategoriasMenuHamburguesa")
+
+
+
+
 
 
 // Categorías
@@ -43,6 +56,12 @@ const $sectionCategoria = $("#categorias");
 const $contenidoOperaciones = $("#contenidoOperaciones");
 const $seccionEditarOperacion = $("#seccionEditarOperacion");
 const $seccionReportes = $("#reportes");
+const $seccionFiltro = $("#seccionFiltro");
+const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
+const $menuDesplegadoHamburguesa = $("#menuDesplegadoHamburguesa");
+const $sectionReporte = $("#sectionReporte");
+const $operacionesVacia = $("#operacionesVacia");
+
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -254,23 +273,32 @@ function editarCategoria(id) {
 }
 
 const mostrarOperaciones = () => {
+  const categorias = getCategorias();
   const operaciones = getOperacionFiltradas();
 
-  const categorias = getCategorias();
-  $seccionEditarOperacion.innerHTML = "";
-
+  if(!operaciones.length){
+    console.log("No operaciones");
+    
+    $contenidoOperaciones.innerHTML = ` <div id="operacionesVacia" class="h-[500px] m-auto flex flex-col justify-center items-center text-center">
+                <img src="" alt="">
+      
+                <h3 class=" text-2xl py-6 font-bold text-gray-700">Sin resultados</h3>
+                <p class="text-gray-700 "> Cambia los filtros o agrega operaciones</p>
+      
+              </div>`; 
+    return;
+  } 
+  
   let contenidoHTML = `
-    <thead>
-      <tr>
-        <th class="text-left font-bold text-sm py-3 px-4">Descripción</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Categoría</th>
-        <th class="hidden md:block text-left font-bold text-sm py-3 px-4">Tipo</th>
-        <th class="text-right font-bold text-sm py-3 px-4">Monto</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Fecha</th>
-        <th class="text-left font-bold text-sm py-3 px-4">Acción</th>
-      </tr>
-    </thead>
-    <tbody>`;
+  <div class="hidden lg:flex justify-between font-bold text-sm m-2">
+    <div class="lg:w-1/6 text-left">Descripción</div>
+    <div class="lg:w-1/6 text-left">Categoría</div>
+    <div class="hidden lg:w-1/6  lg:flex flex-1 text-left">Tipo</div>
+    <div class="lg:w-1/6 ">Monto</div>
+    <div class="hidden lg:w-1/6 md:flex flex-1 text-left">Fecha</div>
+    <div class="lg:w-1/6 text-left">Acción</div>
+  </div>`;
+
 
   // Iteramos sobre las operaciones
   for (const operacion of operaciones) {
@@ -282,21 +310,21 @@ const mostrarOperaciones = () => {
       ? categoria.nombre
       : "Categoría no encontrada";
 
-    contenidoHTML += `
-            <tr id="contenidOpe"class="text-sm ">
-        <td class="text-left px-4 py-3">${operacion.descripcion}</td>
-        <td class="text-left px-4 py-3">${nombreCategoria}</td> 
-        <td class="hidden md:block text-left px-4 py-3">${operacion.tipo}</td>
-        <td class="text-right px-4 py-3 font-semibold">${operacion.monto}</td>
-        <td class="text-left px-4 py-3">${operacion.fecha}</td>
-        <td class="text-left px-4 py-3">
+      contenidoHTML += `
+      <div class="flex flex-wrap justify-between text-sm p-4 border-t">
+        <div class="flex-1 lg:w-1/6  text-left">${operacion.descripcion}</div>
+        <div class="sm:w-2/3 lg:w-1/6 lg:flex-1 text-left">${nombreCategoria}</div>
+        <div class="hidden lg:w-1/6 lg:flex flex-1 text-left">${operacion.tipo}</div>
+        <div class="sm:w-1/3 lg:w-1/6  lg:flex-1 text-left font-semibold">${operacion.monto}</div>
+        <div class="hidden lg:w-1/6  lg:flex text-left">${operacion.fecha}</div>
+        <div class="sm:w-2/3  lg:w-1/6  text-left">
           <button class="text-sky-600 botonEditar" data-id="${operacion.id}">Editar</button>
-          <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button
-        </td>
-      </tr>`;
+          <button class="text-sky-600 botonEliminar" data-id="${operacion.id}">Eliminar</button>
+        </div>
+      </div>`;
   }
 
-  contenidoHTML += `</tbody>`;
+  contenidoHTML += ``;
   $contenidoOperaciones.innerHTML = contenidoHTML;
 
   const botonesEliminar = $$(".botonEliminar");
@@ -396,25 +424,67 @@ const mostrarOperaciones = () => {
 // Eventos de navegación
 $botonBalance.addEventListener("click", () => {
   mostrarBalance();
+  
 });
 
 $botonAgregar.addEventListener("click", () => {
   ocultarTodoMenos("operacion");
   mostrarCategoriasEnSelect($("#listadoDeCategorias"))
+  
+});
+$btnBalanceMenuHamburguesa.addEventListener("click", () => {
+  $sectionBalance.classList.remove("hidden");
+  $sectionOperacion.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
+});
+$botonCerrarMenu.addEventListener("click", () => {
+  $menuDesplegadoHamburguesa.classList.add("hidden");
 });
 
 $botonOperacion.addEventListener("click", () => {
   mostrarBalance();
 });
 
+
 $botonCategorias.addEventListener("click", () => {
   ocultarTodoMenos("categorias");
 });
-
-$botonReportes.addEventListener("click", () => {
-  ocultarTodoMenos("reportes");
+$btnCategoriaMenuHamburguesa.addEventListener("click", () => {
+  $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.remove("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+  $sectionReporte.classList.add("hidden");
 });
 
+// $botonReportes.addEventListener("click", () => {
+//   ocultarTodoMenos("reportes");
+// });
+$btnReportesMenuHamburguesa.addEventListener("click", () => {
+  $sectionReporte.classList.remove("hidden");
+   $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+});
+btnOcultarFiltro.addEventListener("click", () => {
+  $seccionFiltro.classList.toggle("h-[80px]");
+  $seccionFiltro.classList.toggle("py-6");
+  $contenidoSeccionFiltro.classList.toggle("hidden") 
+
+});
+
+$botonReportes.addEventListener("click", () => {
+  $sectionReporte.classList.remove("hidden");
+   $sectionOperacion.classList.add("hidden");
+  $sectionBalance.classList.add("hidden");
+  $sectionCategoria.classList.add("hidden");
+  $inputEditarCategorias.classList.add("hidden");
+});
+$menuHamburguesa.addEventListener("click", () => {
+  $menuDesplegadoHamburguesa.classList.toggle("hidden");
+});
 // Eventos de Categorías
 $botonAñadirCategoria.addEventListener("click", () => {
   const categoria = $añadirCategoria.value;
@@ -443,6 +513,7 @@ const mostrarBalance = () => {
   mostrarOperaciones();
   mostrarFondos();
   mostrarCategoriasEnSelect($("#categoriaFilterBalance"),true);
+  
 };
 
 const ocultarTodoMenos = (id) => {
@@ -469,8 +540,9 @@ const ocultarTodoMenos = (id) => {
     },
     {
       id: "reportes",
-      dom: $seccionReportes,
-    },
+      dom:  $sectionReporte,
+    }
+ 
   ];
 
   for (const section of sections) {
