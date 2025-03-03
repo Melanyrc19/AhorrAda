@@ -63,6 +63,9 @@ const $sectionReporte = $("#sectionReporte");
 const $operacionesVacia = $("#operacionesVacia");
 
 
+
+
+
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
 const getCategorias = () => {
@@ -476,11 +479,106 @@ btnOcultarFiltro.addEventListener("click", () => {
 });
 
 $botonReportes.addEventListener("click", () => {
-  $sectionReporte.classList.remove("hidden");
-   $sectionOperacion.classList.add("hidden");
-  $sectionBalance.classList.add("hidden");
-  $sectionCategoria.classList.add("hidden");
-  $inputEditarCategorias.classList.add("hidden");
+ocultarTodoMenos("sectionReporte");
+
+const categorias = getCategorias();
+      let aux = "";
+
+      for (const categoria of categorias) {
+       const mayorMonto = $("#editarMonto").value,; 
+        aux += 
+      }
+$sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
+                            <div id="categoriaMayorGanancia" class="md:flex md:justify-between py-6">
+                            <p class="sm:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor ganancia</p>
+                            <span class="text-sm">${aux}</span>
+                            <span class="text-green-500">+$000</span>
+                            </div>
+                            <div class="px-4">
+          <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
+      
+          <!-- Categoria con mayor ganancia -->
+         
+      
+          <!-- Categoria con mayor gasto -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor gasto</p>
+            <span class="text-sm">Educacion</span>
+            <span class="text-red-500">-$000</span>
+          </div>
+      
+          <!-- Categoria con mayor balance -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor balance</p>
+            <span class="text-sm">Educacion</span>
+            <span>$0000</span>
+          </div>
+      
+          <!-- Mes con mayor ganancia -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor ganancia</p>
+            <span class="text-sm">fecha</span>
+            <span class="text-green-500">$0000</span>
+          </div>
+      
+          <!-- Mes con mayor gasto -->
+          <div class="md:flex md:justify-between py-6">
+            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor gastos</p>
+            <span class="text-sm">fecha</span>
+            <span class="text-red-500">-$0000</span>
+          </div>
+        </div>
+      
+        <!-- Totales por Categorias -->
+        <div class="md:m-5">
+          <h2 class="text-lg md:text-2xl font-semibold">Totales por categorias</h2>
+          <div class="flex flex-wrap md:flex-row md:justify-between">
+            <div class=" flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Categorias</h3>
+              <p>pepito</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
+              <p class="text-green-500">+$000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
+              <p class="text-red-500">-$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Balance</h3>
+              <p>$0000</p>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Totales por Mes -->
+        <div class="md:m-5 py-[100px]">
+          <h2 class="text-lg md:text-2xl font-semibold md:my-22">Totales por mes</h2>
+          <div class="flex flex-wrap md:flex-row md:justify-between my-6">
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Mes</h3>
+              <p>fecha</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
+              <p class="text-green-500">+$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
+              <p class="text-red-500">-$0000</p>
+            </div>
+            <div class="flex flex-col my-6">
+              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg ">Balance</h3>
+              <p>$0000</p>
+            </div>
+          </div>
+        </div>`
+                            
+
+          const $categoriaMayorGanancia = $("#categoriaMayorGanancia");
+
+
 });
 $menuHamburguesa.addEventListener("click", () => {
   $menuDesplegadoHamburguesa.classList.toggle("hidden");
@@ -539,7 +637,7 @@ const ocultarTodoMenos = (id) => {
       dom: $inputEditarCategorias,
     },
     {
-      id: "reportes",
+      id: "sectionReporte",
       dom:  $sectionReporte,
     }
  
@@ -583,8 +681,6 @@ $ordenFilterBalance.addEventListener("change", (e) => {
   mostrarFondos();
 })
 
-
-  
 
 // Inicialización
 localStorage.removeItem("filter")
