@@ -266,7 +266,7 @@ function editarCategoria(id) {
 
 const mostrarOperaciones = () => {
   const categorias = getCategorias();
-  const operaciones = getOperacionFiltradas();
+  const operaciones = getOperacionFiltradas()
 
   if (!operaciones.length) {
     console.log("No operaciones");
