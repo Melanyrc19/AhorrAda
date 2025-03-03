@@ -277,7 +277,7 @@ function editarCategoria(id) {
 
 const mostrarOperaciones = () => {
   const categorias = getCategorias();
-  const operaciones = getOperacionFiltradas();
+  const operaciones = getOperacionFiltradas()
 
   if(!operaciones.length){
     console.log("No operaciones");
@@ -484,10 +484,13 @@ ocultarTodoMenos("sectionReporte");
 const categorias = getCategorias();
       let aux = "";
 
-      for (const categoria of categorias) {
-       const mayorMonto = $("#editarMonto").value,; 
-        aux += 
-      }
+      // for (const categoria of categorias) {
+      //  const mayorMonto = $("#editarMonto").value; 
+      //   aux += 
+      // };
+
+
+      
 $sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
                             <div id="categoriaMayorGanancia" class="md:flex md:justify-between py-6">
                             <p class="sm:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor ganancia</p>
