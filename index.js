@@ -21,24 +21,17 @@ const $montoGanancia = $("#montoGanancia");
 const $montoGasto = $("#montoGasto");
 const $montoTotal = $("#montoTotal");
 const $tipoFilterBalance = $("#tipoFilterBalance");
-const $categoriaFilterBalance = $("#categoriaFilterBalance"); 
+const $categoriaFilterBalance = $("#categoriaFilterBalance");
 const $fechaFilterBalance = $("#fechaFilterBalance");
-const $ordenFilterBalance = $ ("#ordenFilterBalance");
+const $ordenFilterBalance = $("#ordenFilterBalance");
 
-const btnOcultarFiltro = $("#btnOcultarFiltro")
+const btnOcultarFiltro = $("#btnOcultarFiltro");
 const $botonReportes = $("#botonReportes");
-const $botonCerrarMenu =$("#botonCerrarMenu");
-
-
+const $botonCerrarMenu = $("#botonCerrarMenu");
 
 const $btnBalanceMenuHamburguesa = $("#botonBalanceMenuHamburguesa");
 const $btnReportesMenuHamburguesa = $("#botonReportesMenuHamburguesa");
-const $btnCategoriaMenuHamburguesa = $("#botonCategoriasMenuHamburguesa")
-
-
-
-
-
+const $btnCategoriaMenuHamburguesa = $("#botonCategoriasMenuHamburguesa");
 
 // Categorías
 const $añadirCategoria = $("#añadirCategoria");
@@ -47,7 +40,6 @@ const $botonCategorias = $("#botonCategorias");
 const $inputListadosDeCategorias = $("#listadoDeCategorias");
 const $listadoDeCategoriasVista = $("#listadoDeCategoriasVista");
 const $inputEditarCategorias = $("#inputEditarCategorias");
-
 
 // Secciones
 const $sectionBalance = $("#balance");
@@ -61,10 +53,6 @@ const $contenidoSeccionFiltro = $("#contenidoSeccionFiltro");
 const $menuDesplegadoHamburguesa = $("#menuDesplegadoHamburguesa");
 const $sectionReporte = $("#sectionReporte");
 const $operacionesVacia = $("#operacionesVacia");
-
-
-
-
 
 // Funciones para localStorage
 // Funciones de Categorías    aca hay un problema al borrar todos los datos en la consola:
@@ -86,6 +74,7 @@ const getCategorias = () => {
   return categoriasDefault;
 };
 
+const getCategoria = (id) => getCategorias().find((categoria) => categoria.id == id);
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
 const addCategoria = (categoriaNombre) => {
@@ -103,7 +92,7 @@ const getOperaciones = () =>
 const getOperacion = (id) =>
   getOperaciones().find((operacion) => operacion.id == id);
 
-const getOperacionFiltradas = ()=>{
+const getOperacionFiltradas = () => {
   const filter = getFilter();
   let operacionesFiltradas = getOperaciones();
 
@@ -135,13 +124,13 @@ const getOperacionFiltradas = ()=>{
       AZ: (a, b) => a.descripcion.localeCompare(b.descripcion),
       ZA: (a, b) => b.descripcion.localeCompare(a.descripcion),
     };
-  
+
     const ordenarPor = ordenaciones[filter.orden];
-    
+
     operacionesFiltradas.sort(ordenarPor);
   }
   return operacionesFiltradas;
-}
+};
 const setOperaciones = (operaciones) =>
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
 
@@ -195,9 +184,9 @@ const mostrarFondos = () => {
 };
 
 // funcion para actualizar las nuevas categorias al selec
-const mostrarCategoriasEnSelect = (selectCategoria,optionTodos =false) => {
+const mostrarCategoriasEnSelect = (selectCategoria, optionTodos = false) => {
   const categorias = getCategorias();
-  selectCategoria.innerHTML = optionTodos?`<option>Todos</option>`:"";
+  selectCategoria.innerHTML = optionTodos ? `<option>Todos</option>` : "";
 
   categorias.forEach((categoria) => {
     const option = document.createElement("option");
@@ -279,19 +268,19 @@ const mostrarOperaciones = () => {
   const categorias = getCategorias();
   const operaciones = getOperacionFiltradas();
 
-  if(!operaciones.length){
+  if (!operaciones.length) {
     console.log("No operaciones");
-    
+
     $contenidoOperaciones.innerHTML = ` <div id="operacionesVacia" class="h-[500px] m-auto flex flex-col justify-center items-center text-center">
                 <img src="" alt="">
       
                 <h3 class=" text-2xl py-6 font-bold text-gray-700">Sin resultados</h3>
                 <p class="text-gray-700 "> Cambia los filtros o agrega operaciones</p>
       
-              </div>`; 
+              </div>`;
     return;
-  } 
-  
+  }
+
   let contenidoHTML = `
   <div class="hidden lg:flex justify-between font-bold text-sm m-2">
     <div class="lg:w-1/6 text-left">Descripción</div>
@@ -301,7 +290,6 @@ const mostrarOperaciones = () => {
     <div class="hidden lg:w-1/6 md:flex flex-1 text-left">Fecha</div>
     <div class="lg:w-1/6 text-left">Acción</div>
   </div>`;
-
 
   // Iteramos sobre las operaciones
   for (const operacion of operaciones) {
@@ -313,7 +301,7 @@ const mostrarOperaciones = () => {
       ? categoria.nombre
       : "Categoría no encontrada";
 
-      contenidoHTML += `
+    contenidoHTML += `
       <div class="flex flex-wrap justify-between text-sm p-4 border-t">
         <div class="flex-1 lg:w-1/6  text-left">${operacion.descripcion}</div>
         <div class="sm:w-2/3 lg:w-1/6 lg:flex-1 text-left">${nombreCategoria}</div>
@@ -427,13 +415,11 @@ const mostrarOperaciones = () => {
 // Eventos de navegación
 $botonBalance.addEventListener("click", () => {
   mostrarBalance();
-  
 });
 
 $botonAgregar.addEventListener("click", () => {
   ocultarTodoMenos("operacion");
-  mostrarCategoriasEnSelect($("#listadoDeCategorias"))
-  
+  mostrarCategoriasEnSelect($("#listadoDeCategorias"));
 });
 $btnBalanceMenuHamburguesa.addEventListener("click", () => {
   $sectionBalance.classList.remove("hidden");
@@ -448,7 +434,6 @@ $botonCerrarMenu.addEventListener("click", () => {
 $botonOperacion.addEventListener("click", () => {
   mostrarBalance();
 });
-
 
 $botonCategorias.addEventListener("click", () => {
   ocultarTodoMenos("categorias");
@@ -466,7 +451,7 @@ $btnCategoriaMenuHamburguesa.addEventListener("click", () => {
 // });
 $btnReportesMenuHamburguesa.addEventListener("click", () => {
   $sectionReporte.classList.remove("hidden");
-   $sectionOperacion.classList.add("hidden");
+  $sectionOperacion.classList.add("hidden");
   $sectionBalance.classList.add("hidden");
   $sectionCategoria.classList.add("hidden");
   $inputEditarCategorias.classList.add("hidden");
@@ -474,45 +459,89 @@ $btnReportesMenuHamburguesa.addEventListener("click", () => {
 btnOcultarFiltro.addEventListener("click", () => {
   $seccionFiltro.classList.toggle("h-[80px]");
   $seccionFiltro.classList.toggle("py-6");
-  $contenidoSeccionFiltro.classList.toggle("hidden") 
-
+  $contenidoSeccionFiltro.classList.toggle("hidden");
 });
 
+
+
+const totalPorCategoria = (operaciones) =>{
+  const categoriasMonto = {};
+
+  for (const operacion of operaciones) {
+    if(!categoriasMonto[operacion.categoria]){
+      categoriasMonto[operacion.categoria] = Number(operacion.monto)
+    }else{
+      categoriasMonto[operacion.categoria] += Number(operacion.monto) 
+    }
+  }
+  return categoriasMonto;
+}
+
+const mayorCategoria = (categoriasMonto)=>{
+  let mayor = -Infinity;
+  let categoriaMayor = "";
+
+  for (const categoria in categoriasMonto) {
+    const monto = categoriasMonto[categoria]
+    if(monto >= mayor ){ 
+      mayor = monto
+      categoriaMayor = categoria
+    }
+  }
+
+  return {monto:mayor,categoria:categoriaMayor};
+}
+ 
+const totalPorMes = (operaciones) => {
+  const mesMonto = {};
+  for (const operacion of operaciones) {
+    if(!mesMonto [operacion.fecha]){
+      mesMonto[operacion.fecha] = Number(operacion.monto)
+    }else{
+      mesMonto[operacion.fecha] +=Number(operacion.monto)
+    }
+  }
+  return mesMonto;
+}
+console.log(totalPorMes(getOperaciones()))
+
 $botonReportes.addEventListener("click", () => {
-ocultarTodoMenos("sectionReporte");
+  ocultarTodoMenos("sectionReporte");
 
-const categorias = getCategorias();
-      let aux = "";
+  const operaciones = getOperaciones();
+  let aux = "";
 
-      for (const categoria of categorias) {
-       const mayorMonto = $("#editarMonto").value,; 
-        aux += 
-      }
-$sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
+  const operacionGananacia = operaciones.filter(
+    (operacion) => operacion.tipo === "Ganancias"
+  );
+  const operacionGasto = operaciones.filter(
+    (operacion) => operacion.tipo === "Gastos"
+  );
+
+  const operacionBalance = operaciones.map(operacion=> ({...operacion,monto:operacion.tipo === "Ganacias"?monto:-1*Number(operacion.monto) }))
+
+  const mayorGanancia = mayorCategoria(totalPorCategoria(operacionGananacia))
+  const mayorGastos = mayorCategoria(totalPorCategoria(operacionGasto))
+  const mayorBalance = mayorCategoria(totalPorCategoria(operacionBalance))
+
+  $sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
+                                <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
                             <div id="categoriaMayorGanancia" class="md:flex md:justify-between py-6">
                             <p class="sm:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor ganancia</p>
-                            <span class="text-sm">${aux}</span>
-                            <span class="text-green-500">+$000</span>
+                            <span class="text-sm">${getCategoria(mayorGanancia.categoria).nombre}</span>
+                            <span class="text-green-500">+$${mayorGanancia.monto}</span>
                             </div>
-                            <div class="px-4">
-          <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
-      
-          <!-- Categoria con mayor ganancia -->
-         
-      
-          <!-- Categoria con mayor gasto -->
-          <div class="md:flex md:justify-between py-6">
-            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor gasto</p>
-            <span class="text-sm">Educacion</span>
-            <span class="text-red-500">-$000</span>
-          </div>
-      
-          <!-- Categoria con mayor balance -->
-          <div class="md:flex md:justify-between py-6">
-            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor balance</p>
-            <span class="text-sm">Educacion</span>
-            <span>$0000</span>
-          </div>
+                             <div class="px-4"> 
+                              <div class="md:flex md:justify-between py-6">
+                               <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor gasto</p>
+                               <span class="text-sm">${getCategoria(mayorGastos.categoria).nombre}</span>
+                               <span class="text-red-500">${mayorGastos.monto}</span>
+                              </div>
+                               <div class="md:flex md:justify-between py-6">
+                                 <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor balance</p>
+                                 <span class="text-sm">${getCategoria(mayorBalance.categoria).nombre}</span>
+                                 <span>${mayorBalance.monto}</span>
+                               </div>
       
           <!-- Mes con mayor ganancia -->
           <div class="md:flex md:justify-between py-6">
@@ -573,12 +602,9 @@ $sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Rep
               <p>$0000</p>
             </div>
           </div>
-        </div>`
-                            
+        </div>`;
 
-          const $categoriaMayorGanancia = $("#categoriaMayorGanancia");
-
-
+  const $categoriaMayorGanancia = $("#categoriaMayorGanancia");
 });
 $menuHamburguesa.addEventListener("click", () => {
   $menuDesplegadoHamburguesa.classList.toggle("hidden");
@@ -610,8 +636,7 @@ const mostrarBalance = () => {
   ocultarTodoMenos("balance");
   mostrarOperaciones();
   mostrarFondos();
-  mostrarCategoriasEnSelect($("#categoriaFilterBalance"),true);
-  
+  mostrarCategoriasEnSelect($("#categoriaFilterBalance"), true);
 };
 
 const ocultarTodoMenos = (id) => {
@@ -638,9 +663,8 @@ const ocultarTodoMenos = (id) => {
     },
     {
       id: "sectionReporte",
-      dom:  $sectionReporte,
-    }
- 
+      dom: $sectionReporte,
+    },
   ];
 
   for (const section of sections) {
@@ -670,8 +694,7 @@ $fechaFilterBalance.addEventListener("change", (e) => {
   updateFilter({ fecha: fecha == "Todos" ? null : fecha });
   mostrarOperaciones();
   mostrarFondos();
-
-})
+});
 
 $ordenFilterBalance.addEventListener("change", (e) => {
   const orden = e.target.value;
@@ -679,9 +702,8 @@ $ordenFilterBalance.addEventListener("change", (e) => {
 
   mostrarOperaciones();
   mostrarFondos();
-})
-
+});
 
 // Inicialización
-localStorage.removeItem("filter")
+localStorage.removeItem("filter");
 mostrarBalance();
