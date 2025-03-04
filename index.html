@@ -21,43 +21,64 @@
         <button id="botonReportes" class="m-5">Reportes</button>
       </div>
       <div class="md:hidden">
-        <button>
-          <i id="MenuHamburguesa" class="text-white p-6 fa-solid fa-bars menu-profile md:hidden"></i>   
+        <button id="menuHamburguesa" class="md:hidden">
+          <i class="text-white p-6 fa-solid fa-bars menu-profile "></i>   
         </button>
-       
       </div>
+      
     </header>
+    <section id="menuDesplegadoHamburguesa" class="hidden md:hidden container mx-auto flex flex-col ">
+      <div class="flex flex-col items-start rounded-lg shadow-lg bg-white my-6 mx-8 relative p-4">
+          <button class="absolute top-0 right-[0px] p-2 bg-blue-200 rounded-sm text-md text-gray-700 hover:bg-blue-300" id="botonCerrarMenu">
+            X
+          </button>
+       
+        <button id="botonBalanceMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+         Balance
+        </button>
+        <button id="botonCategoriasMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Categorías
+        </button>
+        <button id="botonReportesMenuHamburguesa" class="text-gl px-2 mb-4 text-lg text-gray-700 hover:bg-blue-100 hover:shadow-xl rounded-xl transition duration-300">
+          Reportes
+        </button>
+      </div>
+    </section>
     <main>
       <section
         id="balance"
-        class="container mx-auto flex flex-col sm:flex-row hidden"
+        class="container mx-auto flex flex-col sm:flex-row "
       >
-        <div class="w-full sm:w-1/3">
+        <div id="" class="w-full sm:w-1/3">
           <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="text-lg font-semibold px-4 py-2">Balance</div>
             <div class="p-4">
-              <div>
+              <div class="flex w-full place-content-between">
                 <p class="text-gray-700 text-sm lg:text-lg">Ganancias</p>
-                <p></p>
+                <p id="montoGanancia" class="text-green-400 "></p>
               </div>
-              <div>
+              <div class="flex w-full place-content-between">
                 <p class="text-gray-700 text-sm lg:text-lg">Gastos</p>
-                <p></p>
+                <p class="text-red-300" id="montoGasto"></p>
+              </div>
+              <div class="flex w-full place-content-between">
+                <p class="text-gray-1400 font-extrabold text-sm lg:text-lg">TOTAL</p>
+                <p class="text-gray-900 font-bold" id="montoTotal"></p>
               </div>
             </div>
           </div>
-          <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
+          <div id="seccionFiltro" class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="flex items-center justify-between px-4 py-2">
               <div class="text-lg font-semibold">Filtro</div>
-              <div>Ocultar Filtro</div>
+              <button id="btnOcultarFiltro">Ocultar Filtro</button>
             </div>
 
-            <div class="p-4">
+            <div id="contenidoSeccionFiltro" class="p-4">
               <div class="mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Tipo</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
+                <select class="w-full mt-1 p-2 border rounded-md" id="tipoFilterBalance">
                   <option>Todos</option>
                   <option>Gastos</option>
                   <option>Ganancias</option>
@@ -67,25 +88,28 @@
                 <label class="block text-sm font-medium text-gray-700"
                   >Categoría</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
+                <select class="w-full mt-1 p-2 border rounded-md" id="categoriaFilterBalance">
                   <option>Todas</option>
-                  <option>Categoría 1</option>
-                  <option>Categoría 2</option>
+               
                 </select>
               </div>
               <div class="mb-3 mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Desde</label
                 >
-                <input type="date" class="w-full mt-1 p-2 border rounded-md" />
+                <input type="date" class="w-full mt-1 p-2 border rounded-md" id="fechaFilterBalance" />
               </div>
               <div class="mb-3 mb-8">
                 <label class="block text-sm font-medium text-gray-700"
                   >Ordenar por</label
                 >
-                <select class="w-full mt-1 p-2 border rounded-md">
-                  <option>Más reciente</option>
-                  <option>Más antiguo</option>
+                <select class="w-full mt-1 p-2 border rounded-md" id="ordenFilterBalance">
+                  <option value="masReciente">Más reciente</option>
+                  <option value="masAntiguo">Más antiguo</option>
+                  <option value="mayorMonto">Mayor monto</option>
+                  <option value="menorMonto">Menor monto</option>
+                  <option value="AZ">A/Z</option>
+                  <option value="ZA">Z/A</option>
                 </select>
               </div>
             </div>
@@ -94,27 +118,29 @@
         <div class="w-full sm:w-2/3">
           <div class="rounded-lg shadow-lg bg-white my-6 mx-8">
             <div class="flex items-center justify-between px-4 py-2">
-              <div id="contenidoOperaciones" class="text-xl font-semibold">Operaciones</div>
+              <h3 class="py-6 text-2xl font-semibold text-gray-700 ">Operaciones</h3>
               <button
               id="botonAgregar"
-              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+              class="bg-green-500 text-white text-sm px-4 py-2 rounded-lg shadow hover:bg-green-600"
             >
-              Agregar
+              + Nueva Operacion
             </button>
             </div>
-            <div class="p-4">
-              <div>
-                <p class="text-gray-700 text-sm lg:text-lg">Ganancias</p>
-                <p></p>
-              </div>
-              <div>
-                <p class="text-gray-700 text-sm lg:text-lg">Gastos</p>
-                <p></p>
-              </div>
+            <div id="contenidoOperaciones" class=" w-5/6 m-auto ">
             </div>
-          </div>
-        </div>
+             
+
+         </div>
+          
+           
+            </section>
+          
       </section>
+      
+      <section id="seccionEditarOperacion">
+
+      </section>
+
       <section id="operacion" class="container mx-auto hidden">
         <form class="rounded-lg shadow-lg bg-white my-6 mx-8" id="formOperacion">
           <div class="text-lg font-semibold px-4 py-2">Nueva Operacion</div>
@@ -149,10 +175,6 @@
                 >Categoria</label
               >
               <select id="listadoDeCategorias" class="w-full mt-1 p-2 border rounded-md" name="categoria">
-                <option>Trabajo</option>
-                <option>Educacion</option>
-                <option value="">Transporte</option>
-                <option value="">Comida</option>
               </select>
             </div>
             <div class="mb-3 mb-8">
@@ -162,7 +184,7 @@
               <input name="fecha" type="date" class="w-full mt-1 p-2 border rounded-md" />
             </div>
             <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-                <button id="btnOperacion" type="submit"
+                <button id="botonOperacion" type="submit"
                   class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
                 >
                   Agregar
@@ -177,7 +199,7 @@
         
         </form>
       </section>
-      <section id="categorias" class="container mx-auto rounded-lg shadow-lg bg-white my-6 mx-8 pb-6">
+      <section id="categorias" class="container mx-auto rounded-lg shadow-lg bg-white my-6 mx-8 hidden">
         
             <div class="text-lg font-semibold px-4 py-2">Categorias</div>
             <div class="p-4 px-4 py-2">
@@ -196,18 +218,35 @@
                   
             </div>
             <div id="listadoDeCategoriasVista" class="mt-6">
-              <div class="flex flex-row pr-4 pl-4 m-auto ">
-                <span>Salidas</span>
-                <div class="flex justify-center w-full gap-4 mx-auto sm:justify-end">
-                  <button class="text-sky-600">Editar</button>
-                  <button class="text-sky-600">Eliminar</button>
-                </div>
-              </div>  
-              
-            </div>
-     
+
       </section>
-      <section id="reportes"></section>
+      <section  id="inputEditarCategorias" class=" hidden container mx-auto md:h-[250px] rounded-lg shadow-lg bg-white my-6 mx-8">
+        
+        <div class="text-lg font-semibold px-4 py-8">Editar categoria</div>
+        <div class="p-4 px-4 py-2">
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700"
+              >Nombre</label
+            >
+            <div class="flex gap-4 mt-1">
+                <input id="inputCategoriaNombre" type="text" class="w-full  py-2 border rounded-md" />
+                <button id="botonEditarCategoriaInput" type="button" class="bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600">
+                    Guardar
+                </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="sectionReporte" class="w-4/5 md:w-4/5 lg:w-2/5 mx-auto md:h-full rounded-lg shadow-lg bg-white my-6 mx-8 px-6 py-10 ">
+        
+      
+        
+      </section>
+
+        
+
     </main>
 
     <script src="index.js"></script>
