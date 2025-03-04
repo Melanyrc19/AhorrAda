@@ -545,7 +545,7 @@ $botonReportes.addEventListener("click", () => {
   const totalMesGanancia = totalPorMes(operacionGanancia);
   const totalMesGastos = totalPorMes(operacionGasto);
   const mayorMesGanancia = mayorFecha(totalMesGanancia);
-  const mayorMesGasto = mayorFecha(totalPorMes(operacionGasto));
+  const mayorMesGasto = mayorFecha(totalMesGastos);
 
   const categoriasSection = [];
   const categorias = getCategorias();
@@ -562,40 +562,25 @@ $botonReportes.addEventListener("click", () => {
         : 0,
     });
   }
-  //  const mesSection = [];
-  //   let mesMonto = totalPorMes();
 
-  //   for (const mesMonto of fechas) {
-  //     mesSection.push({
-  //       Fechas: totalMesGanancia.fecha
-  //       ganancias: totalMesGanancia[]
-  //       gasto:
-  //       balance:
-  //     })
-
-  //   }
-  //  }
-  //  mesMonto[operacion.fecha] +=Number(operacion.monto)
-
-  const fechardas = [];
+  const fechaMes = [];
 
   for (const fecha in totalMesBalance) {
-
     const date = new Date(fecha);
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
     const indiceFecha = `${month}/${year}`;
 
-    const index = fechardas.findIndex(
-      (fechardita) => fechardita.fecha == indiceFecha
+    const index = fechaMes.findIndex(
+      (fechaM) => fechaM.fecha == indiceFecha
     );
     if (index !== -1) {
-      fechardas[index].ganancia += Number(totalMesGanancia[fecha]) || 0;
-      fechardas[index].gastos += Number(totalMesGastos[fecha]) || 0;
-      fechardas[index].balance += Number(totalMesBalance[fecha]) || 0;
+      fechaMes[index].ganancia += Number(totalMesGanancia[fecha]) || 0;
+      fechaMes[index].gastos += Number(totalMesGastos[fecha]) || 0;
+      fechaMes[index].balance += Number(totalMesBalance[fecha]) || 0;
     } else {
-      fechardas.push({
+      fechaMes.push({
         fecha: indiceFecha,
         ganancia: Number(totalMesGanancia[fecha]) || 0,
         gastos: Number(totalMesGastos[fecha]) || 0,
@@ -603,7 +588,6 @@ $botonReportes.addEventListener("click", () => {
       });
     }
   }
-  console.log({ fechardas });
 
   $sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
                                 <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
@@ -692,30 +676,41 @@ $botonReportes.addEventListener("click", () => {
                           </div>
                         </div>
                        </div>
-      
-        <!-- Totales por Mes -->
+       
         <div class="md:m-5 py-[100px]">
           <h2 class="text-lg md:text-2xl font-semibold md:my-22">Totales por mes</h2>
           <div class="flex flex-wrap md:flex-row md:justify-between my-6">
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Mes</h3>
-               ${Object.entries(fechardas)
-                 .map((fechardita) => {
-                   return ` <p class="text-gray-500"> ${fechardita[0]}</p>`;
-                 })
-                 .join("")}
+              ${fechaMes
+                .map((fechaM) => {
+                  return ` <p class="text-gray-500">${fechaM.fecha}</p>`;
+                })
+                .join("")}
             </div>
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
-              <p class="text-green-500">+$0000</p>
+              ${fechaMes
+                .map((fechaM) => {
+                  return ` <p class="text-green-500">+${fechaM.ganancia}</p>`;
+                })
+                .join("")}
             </div>
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
-              <p class="text-red-500">-$0000</p>
+              ${fechaMes
+                .map((fechaM) => {
+                  return ` <p class="text-red-500">-${fechaM.gastos}</p>`;
+                })
+                .join("")}
             </div>
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg ">Balance</h3>
-              <p>$0000</p>
+              ${fechaMes
+                .map((fechaM) => {
+                  return ` <p class="text-gray-500">${fechaM.balance}</p>`;
+                })
+                .join("")}
             </div>
           </div>
         </div>`;
