@@ -17,6 +17,7 @@ const $botonBalance = $("#botonBalance");
 const $botonAgregar = $("#botonAgregar");
 const $formOperacion = $("#formOperacion");
 const $botonOperacion = $("#botonOperacion");
+const $botonCancelar = $("#botonCancelar")
 const $montoGanancia = $("#montoGanancia");
 const $montoGasto = $("#montoGasto");
 const $montoTotal = $("#montoTotal");
@@ -75,7 +76,9 @@ const getCategorias = () => {
 };
 
 const getCategoria = (id) =>
-  getCategorias().find((categoria) => categoria.id == id);
+  getCategorias().find((categoria) => categoria.id == id) || {
+    nombre: "Sin definir"
+  };
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
 const addCategoria = (categoriaNombre) => {
@@ -83,10 +86,6 @@ const addCategoria = (categoriaNombre) => {
   setCategorias([...getCategorias(), nuevaCategoria]);
 };
 
-// Funciones de Operaciones
-// const clearOp = () =>{
-//   localStorage.removeItem("operaciones")
-// }
 const getOperaciones = () =>
   JSON.parse(localStorage.getItem("operaciones")) || [];
 
@@ -211,7 +210,7 @@ const mostrarCategorias = () => {
       </div>
     </div>`;
   }
-  listadoDeCategoriasVista.innerHTML = aux;
+ $listadoDeCategoriasVista.innerHTML = aux;
 
   const arrayBotonEliminar = $$(".botonEliminar");
   const arrayBotonEditar = $$(".botonEditar");
@@ -229,13 +228,19 @@ const mostrarCategorias = () => {
   });
 };
 
+
+
 function quitarCategoria(id) {
-  let categorias = getCategorias();
-  categorias = categorias.filter((categoria) => categoria.id !== id);
-  setCategorias(categorias);
+  const categoriasFiltradas = getCategorias().filter((categoria) => categoria.id !== id);
+  setCategorias(categoriasFiltradas);
+
+  const operacionesFiltradas = getOperaciones().filter(operacion => operacion.categoria !== id) 
+  setOperaciones(operacionesFiltradas);
+
   mostrarCategorias();
   mostrarFondos();
 }
+
 function editarCategoria(id) {
   let categorias = getCategorias();
   const categoria = categorias.find((categoria) => categoria.id === id);
@@ -436,8 +441,13 @@ $botonOperacion.addEventListener("click", () => {
   mostrarBalance();
 });
 
+$botonCancelar.addEventListener("click",()=>{
+  mostrarBalance()  
+})
+
 $botonCategorias.addEventListener("click", () => {
   ocultarTodoMenos("categorias");
+  mostrarCategorias();
 });
 $btnCategoriaMenuHamburguesa.addEventListener("click", () => {
   $sectionOperacion.classList.add("hidden");
@@ -447,16 +457,6 @@ $btnCategoriaMenuHamburguesa.addEventListener("click", () => {
   $sectionReporte.classList.add("hidden");
 });
 
-// $botonReportes.addEventListener("click", () => {
-//   ocultarTodoMenos("reportes");
-// });
-$btnReportesMenuHamburguesa.addEventListener("click", () => {
-  $sectionReporte.classList.remove("hidden");
-  $sectionOperacion.classList.add("hidden");
-  $sectionBalance.classList.add("hidden");
-  $sectionCategoria.classList.add("hidden");
-  $inputEditarCategorias.classList.add("hidden");
-});
 btnOcultarFiltro.addEventListener("click", () => {
   $seccionFiltro.classList.toggle("h-[80px]");
   $seccionFiltro.classList.toggle("py-6");
@@ -488,7 +488,7 @@ const mayorCategoria = (categoriasMonto) => {
     }
   }
 
-  return { monto: mayor, categoria: categoriaMayor };
+  return { monto: mayor != -Infinity ?mayor:0, categoria: categoriaMayor??"No existe" };
 };
 
 const totalPorMes = (operaciones) => {
@@ -513,10 +513,9 @@ const mayorFecha = (mesMonto) => {
       mesMayor = fecha;
     }
   }
-  return { monto: mMayor, fecha: mesMayor };
+  return { monto: mMayor??0, fecha: mesMayor };
 };
-
-$botonReportes.addEventListener("click", () => {
+const mostarReportes =  () => {
   ocultarTodoMenos("sectionReporte");
 
   const operaciones = getOperaciones();
@@ -572,9 +571,7 @@ $botonReportes.addEventListener("click", () => {
 
     const indiceFecha = `${month}/${year}`;
 
-    const index = fechaMes.findIndex(
-      (fechaM) => fechaM.fecha == indiceFecha
-    );
+    const index = fechaMes.findIndex((fechaM) => fechaM.fecha == indiceFecha);
     if (index !== -1) {
       fechaMes[index].ganancia += Number(totalMesGanancia[fecha]) || 0;
       fechaMes[index].gastos += Number(totalMesGastos[fecha]) || 0;
@@ -716,7 +713,9 @@ $botonReportes.addEventListener("click", () => {
         </div>`;
 
   const $categoriaMayorGanancia = $("#categoriaMayorGanancia");
-});
+}
+$btnReportesMenuHamburguesa.addEventListener("click",mostarReportes)
+$botonReportes.addEventListener("click",mostarReportes);
 $menuHamburguesa.addEventListener("click", () => {
   $menuDesplegadoHamburguesa.classList.toggle("hidden");
 });
