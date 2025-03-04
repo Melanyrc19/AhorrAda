@@ -74,7 +74,8 @@ const getCategorias = () => {
   return categoriasDefault;
 };
 
-const getCategoria = (id) => getCategorias().find((categoria) => categoria.id == id);
+const getCategoria = (id) =>
+  getCategorias().find((categoria) => categoria.id == id);
 const setCategorias = (categorias) =>
   localStorage.setItem("categorias", JSON.stringify(categorias));
 const addCategoria = (categoriaNombre) => {
@@ -266,7 +267,7 @@ function editarCategoria(id) {
 
 const mostrarOperaciones = () => {
   const categorias = getCategorias();
-  const operaciones = getOperacionFiltradas()
+  const operaciones = getOperacionFiltradas();
 
   if (!operaciones.length) {
     console.log("No operaciones");
@@ -462,48 +463,58 @@ btnOcultarFiltro.addEventListener("click", () => {
   $contenidoSeccionFiltro.classList.toggle("hidden");
 });
 
-
-
-const totalPorCategoria = (operaciones) =>{
+const totalPorCategoria = (operaciones) => {
   const categoriasMonto = {};
 
   for (const operacion of operaciones) {
-    if(!categoriasMonto[operacion.categoria]){
-      categoriasMonto[operacion.categoria] = Number(operacion.monto)
-    }else{
-      categoriasMonto[operacion.categoria] += Number(operacion.monto) 
+    if (!categoriasMonto[operacion.categoria]) {
+      categoriasMonto[operacion.categoria] = Number(operacion.monto);
+    } else {
+      categoriasMonto[operacion.categoria] += Number(operacion.monto);
     }
   }
   return categoriasMonto;
-}
+};
 
-const mayorCategoria = (categoriasMonto)=>{
+const mayorCategoria = (categoriasMonto) => {
   let mayor = -Infinity;
   let categoriaMayor = "";
 
   for (const categoria in categoriasMonto) {
-    const monto = categoriasMonto[categoria]
-    if(monto >= mayor ){ 
-      mayor = monto
-      categoriaMayor = categoria
+    const monto = categoriasMonto[categoria];
+    if (monto >= mayor) {
+      mayor = monto;
+      categoriaMayor = categoria;
     }
   }
 
-  return {monto:mayor,categoria:categoriaMayor};
-}
- 
+  return { monto: mayor, categoria: categoriaMayor };
+};
+
 const totalPorMes = (operaciones) => {
   const mesMonto = {};
+
   for (const operacion of operaciones) {
-    if(!mesMonto [operacion.fecha]){
-      mesMonto[operacion.fecha] = Number(operacion.monto)
-    }else{
-      mesMonto[operacion.fecha] +=Number(operacion.monto)
+    if (!mesMonto[operacion.fecha]) {
+      mesMonto[operacion.fecha] = Number(operacion.monto);
+    } else {
+      mesMonto[operacion.fecha] += Number(operacion.monto);
     }
   }
   return mesMonto;
-}
-console.log(totalPorMes(getOperaciones()))
+};
+const mayorFecha = (mesMonto) => {
+  let mMayor = -Infinity;
+  let mesMayor = "";
+  for (const fecha in mesMonto) {
+    const montoMes = mesMonto[fecha];
+    if (montoMes >= mMayor) {
+      mMayor = montoMes;
+      mesMayor = fecha;
+    }
+  }
+  return { monto: mMayor, fecha: mesMayor };
+};
 
 $botonReportes.addEventListener("click", () => {
   ocultarTodoMenos("sectionReporte");
@@ -511,75 +522,174 @@ $botonReportes.addEventListener("click", () => {
   const operaciones = getOperaciones();
   let aux = "";
 
-  const operacionGananacia = operaciones.filter(
+  const operacionGanancia = operaciones.filter(
     (operacion) => operacion.tipo === "Ganancias"
   );
   const operacionGasto = operaciones.filter(
     (operacion) => operacion.tipo === "Gastos"
   );
 
-  const operacionBalance = operaciones.map(operacion=> ({...operacion,monto:operacion.tipo === "Ganacias"?monto:-1*Number(operacion.monto) }))
+  const operacionBalance = operaciones.map((operacion) => ({
+    ...operacion,
+    monto: operacion.tipo === "Ganacias" ? monto : -1 * Number(operacion.monto),
+  }));
 
-  const mayorGanancia = mayorCategoria(totalPorCategoria(operacionGananacia))
-  const mayorGastos = mayorCategoria(totalPorCategoria(operacionGasto))
-  const mayorBalance = mayorCategoria(totalPorCategoria(operacionBalance))
+  const categoriaGanancia = totalPorCategoria(operacionGanancia);
+  const categoriaGastos = totalPorCategoria(operacionGasto);
+  const categoriaBalance = totalPorCategoria(operacionBalance);
+  const mayorGanancia = mayorCategoria(categoriaGanancia);
+  const mayorGastos = mayorCategoria(totalPorCategoria(operacionGasto));
+  const mayorBalance = mayorCategoria(categoriaBalance);
+
+  const totalMesBalance = totalPorMes(operacionBalance);
+  const totalMesGanancia = totalPorMes(operacionGanancia);
+  const totalMesGastos = totalPorMes(operacionGasto);
+  const mayorMesGanancia = mayorFecha(totalMesGanancia);
+  const mayorMesGasto = mayorFecha(totalPorMes(operacionGasto));
+
+  const categoriasSection = [];
+  const categorias = getCategorias();
+
+  for (const categoria of categorias) {
+    categoriasSection.push({
+      categoria: categoria.nombre,
+      ganancia: categoriaGanancia[categoria.id]
+        ? categoriaGanancia[categoria.id]
+        : 0,
+      gastos: categoriaGastos[categoria.id] ? categoriaGastos[categoria.id] : 0,
+      balance: categoriaBalance[categoria.id]
+        ? categoriaBalance[categoria.id]
+        : 0,
+    });
+  }
+  //  const mesSection = [];
+  //   let mesMonto = totalPorMes();
+
+  //   for (const mesMonto of fechas) {
+  //     mesSection.push({
+  //       Fechas: totalMesGanancia.fecha
+  //       ganancias: totalMesGanancia[]
+  //       gasto:
+  //       balance:
+  //     })
+
+  //   }
+  //  }
+  //  mesMonto[operacion.fecha] +=Number(operacion.monto)
+
+  const fechardas = [];
+  // 01.01.2024: 123
+  for (const fecha in totalMesBalance) {
+    // const [year,month] = fecha.split("-")
+    const date = new Date(fecha);
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const indiceFecha = `${month}/${year}`;
+    const index = fechardas.findIndex(
+      (fechardita) => fechardita.fecha == indiceFecha
+    );
+    if (index !== -1) {
+      fechardas[index].ganancia += Number(totalMesGanancia[fecha]) || 0;
+      fechardas[index].gastos += Number(totalMesGastos[fecha]) || 0;
+      fechardas[index].balance += Number(totalMesBalance[fecha]) || 0;
+    } else {
+      fechardas.push({
+        fecha: indiceFecha,
+        ganancia: Number(totalMesGanancia[fecha]) || 0,
+        gastos: Number(totalMesGastos[fecha]) || 0,
+        balance: Number(totalMesBalance[fecha]) || 0,
+      });
+    }
+  }
+  console.log({ fechardas });
 
   $sectionReporte.innerHTML = ` <h2 class="text-2xl md:text-4xl font-semibold">Reportes</h2> 
                                 <h3 class="py-8 text-xl md:text-2xl font-semibold">Resumen</h3>
                             <div id="categoriaMayorGanancia" class="md:flex md:justify-between py-6">
                             <p class="sm:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor ganancia</p>
-                            <span class="text-sm">${getCategoria(mayorGanancia.categoria).nombre}</span>
-                            <span class="text-green-500">+$${mayorGanancia.monto}</span>
+                            <span class="text-sm">${
+                              getCategoria(mayorGanancia.categoria).nombre
+                            }</span>
+                            <span class="text-green-500">+$${
+                              mayorGanancia.monto
+                            }</span>
                             </div>
                              <div class="px-4"> 
                               <div class="md:flex md:justify-between py-6">
                                <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor gasto</p>
-                               <span class="text-sm">${getCategoria(mayorGastos.categoria).nombre}</span>
-                               <span class="text-red-500">${mayorGastos.monto}</span>
+                               <span class="text-sm">${
+                                 getCategoria(mayorGastos.categoria).nombre
+                               }</span>
+                               <span class="text-red-500">${
+                                 mayorGastos.monto
+                               }</span>
                               </div>
                                <div class="md:flex md:justify-between py-6">
                                  <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Categoria con mayor balance</p>
-                                 <span class="text-sm">${getCategoria(mayorBalance.categoria).nombre}</span>
+                                 <span class="text-sm">${
+                                   getCategoria(mayorBalance.categoria).nombre
+                                 }</span>
                                  <span>${mayorBalance.monto}</span>
                                </div>
+                                 <div class="md:flex md:justify-between py-6">
+                                   <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor ganancia</p>
+                                   <span class="text-sm">${
+                                     mayorMesGanancia.fecha
+                                   }</span>
+                                   <span class="text-green-500">${
+                                     mayorMesGanancia.monto
+                                   }</span>
+                                  </div>
       
-          <!-- Mes con mayor ganancia -->
-          <div class="md:flex md:justify-between py-6">
-            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor ganancia</p>
-            <span class="text-sm">fecha</span>
-            <span class="text-green-500">$0000</span>
-          </div>
+                                <div class="md:flex md:justify-between py-6">
+                                  <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor gastos</p>
+                                  <span class="text-sm">${
+                                    mayorMesGasto.fecha
+                                  }</span>
+                                 <span class="text-red-500">${
+                                   mayorMesGasto.monto
+                                 }</span>
+                                </div>
+                               </div>
       
-          <!-- Mes con mayor gasto -->
-          <div class="md:flex md:justify-between py-6">
-            <p class="md:w-[250px] text-gray-700 text-sm md:text-lg">Mes con mayor gastos</p>
-            <span class="text-sm">fecha</span>
-            <span class="text-red-500">-$0000</span>
-          </div>
-        </div>
-      
-        <!-- Totales por Categorias -->
-        <div class="md:m-5">
-          <h2 class="text-lg md:text-2xl font-semibold">Totales por categorias</h2>
-          <div class="flex flex-wrap md:flex-row md:justify-between">
-            <div class=" flex flex-col my-6">
-              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Categorias</h3>
-              <p>pepito</p>
-            </div>
-            <div class="flex flex-col my-6">
-              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
-              <p class="text-green-500">+$000</p>
-            </div>
-            <div class="flex flex-col my-6">
-              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
-              <p class="text-red-500">-$0000</p>
-            </div>
-            <div class="flex flex-col my-6">
-              <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Balance</h3>
-              <p>$0000</p>
-            </div>
-          </div>
-        </div>
+       
+                              <div class="md:m-5">
+                              <h2 class="text-lg md:text-2xl font-semibold">Totales por categorias</h2>
+                              <div class="flex flex-wrap md:flex-row md:justify-between">
+                             <div class=" flex flex-col my-6">
+                               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Categorias</h3>
+                                ${categoriasSection
+                                  .map((categoria) => {
+                                    return `<p>${categoria.categoria}</p>`;
+                                  })
+                                  .join("")}
+                              </div>
+                             <div class="flex flex-col my-6">
+                               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
+                                ${categoriasSection
+                                  .map((categoria) => {
+                                    return ` <p class="text-green-500"> +${categoria.ganancia}</p>`;
+                                  })
+                                  .join("")}
+                             </div>
+                           <div class="flex flex-col my-6">
+                               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Gastos</h3>
+                                 ${categoriasSection
+                                   .map((categoria) => {
+                                     return ` <p class="text-red-500"> +${categoria.gastos}</p>`;
+                                   })
+                                   .join("")}
+                             </div>
+                         <div class="flex flex-col my-6">
+                           <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Balance</h3>
+                            ${categoriasSection
+                              .map((categoria) => {
+                                return ` <p class="text-gray-500"> ${categoria.balance}</p>`;
+                              })
+                              .join("")}
+                          </div>
+                        </div>
+                       </div>
       
         <!-- Totales por Mes -->
         <div class="md:m-5 py-[100px]">
@@ -587,7 +697,11 @@ $botonReportes.addEventListener("click", () => {
           <div class="flex flex-wrap md:flex-row md:justify-between my-6">
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Mes</h3>
-              <p>fecha</p>
+               ${Object.entries(fechardas)
+                 .map((fechardita) => {
+                   return ` <p class="text-gray-500"> ${fechardita[0]}</p>`;
+                 })
+                 .join("")}
             </div>
             <div class="flex flex-col my-6">
               <h3 class="w-[100px] py-6 font-semibold text-sm md:text-lg">Ganancias</h3>
