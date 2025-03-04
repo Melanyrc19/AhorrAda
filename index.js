@@ -578,13 +578,15 @@ $botonReportes.addEventListener("click", () => {
   //  mesMonto[operacion.fecha] +=Number(operacion.monto)
 
   const fechardas = [];
-  // 01.01.2024: 123
+
   for (const fecha in totalMesBalance) {
-    // const [year,month] = fecha.split("-")
+
     const date = new Date(fecha);
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
+
     const indiceFecha = `${month}/${year}`;
+
     const index = fechardas.findIndex(
       (fechardita) => fechardita.fecha == indiceFecha
     );
